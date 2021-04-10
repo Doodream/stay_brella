@@ -39,9 +39,9 @@ A quality guarantee is enclosed and a refund or exchange is possible.</p>
                                 return (
                                     <div>
                                         <SlideBox>
-                                            <img width='240px' height='240px' src={images[index]} alt='배경이미지'></img>
-                                            <img width='240px' height='240px' src={images[(index + 2) % images.length]} alt='배경이미지'></img>
-                                            <img width='240px' height='240px' src={images[(index + 4) % images.length]} alt='배경이미지'></img>
+                                            <Link href="/product"><a><img width='240px' height='240px' src={images[index]} alt='배경이미지'></img></a></Link>
+                                            <Link href="/product"><a><img width='240px' height='240px' src={images[(index + 2) % images.length]} alt='배경이미지'></img></a></Link>
+                                            <Link href="/product"><a><img width='240px' height='240px' src={images[(index + 4) % images.length]} alt='배경이미지'></img></a></Link>
                                         </SlideBox>
                                     </div>
                                 )
