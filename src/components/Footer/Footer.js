@@ -62,11 +62,11 @@ const Section = styled.div`
 const FooterMenu = styled.ul`
     justify-content: flex-end;
     display: flex;
-    width: 100%;
+    width: 65%;
 
 `
 const FooterMenuList = styled.div`
-    width: 30%;
+    width: 20%;
     margin-top : 40px;
     margin-left: 40px;
     justify-content: start;
