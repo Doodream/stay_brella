@@ -1,8 +1,38 @@
 import React from 'react';
 import Link from 'next/link';
+
+//import AuthContext from '../../../contexts/Auth/AuthContext'
+import { Button, Menu, Dropdown } from 'antd';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 export default function Header() {
+    const isAuthenticated = true;
+    // const { authUser, logout, isAuthenticated, homeRedirect } = React.useContext(AuthContext);
+    // const [ishoverList, setIshoverList] = React.useState(false);
+
+    // const hoverListStatus = () => {
+    //     setVisible((prev) => !prev);
+    // }
+
+    const menu = (
+        <MyPageMenu>
+            <MyPageMenuItem >
+                <Link href='/account/myPage/myinfo'>
+                    <a>
+                        <UserOutlined />
+                        <h5>내 정보</h5>
+                    </a>
+                </Link>
+            </MyPageMenuItem>
+            <MyPageMenuItem  >
+                <a>
+                    <LogoutOutlined />
+                    <h5>로그아웃</h5>
+                </a>
+            </MyPageMenuItem>
+        </MyPageMenu>
+    );
 
     return (
         <Container>
@@ -12,15 +42,29 @@ export default function Header() {
                     <h3> StayBrella </h3>
                 </HeaderLogo>
             </Link>
-            <HeaderAccount>
-                <Link href='/account/login'>
-                    <a><h3>로그인</h3></a>
-                </Link>
-                <Divider />
-                <Link href='/account/signup'>
-                    <a><h3>회원가입</h3></a>
-                </Link>
-            </HeaderAccount>
+            {
+                isAuthenticated ?
+                    <HeaderAccount>
+                        <a className="myPage"><h3> 마이페이지 </h3></a>
+                        <Divider />
+                        <MyPageDropdown overlay={menu}
+                            onClick={e => e.preventDefault()}
+                            placement="bottomCenter"
+                            arrow
+                        >
+                            <img src='/layout/staybrella 타이틀로고.png' alt="계정 이미지"></img>
+                        </MyPageDropdown>
+                    </HeaderAccount> :
+                    <HeaderAccount>
+                        <Link href='/account/login'>
+                            <a><h3>로그인</h3></a>
+                        </Link>
+                        <Divider />
+                        <Link href='/account/signup'>
+                            <a><h3>회원가입</h3></a>
+                        </Link>
+                    </HeaderAccount>
+            }
         </Container>
     )
 }
@@ -44,6 +88,9 @@ const HeaderAccount = styled.div`
         text-decoration: none;
         color: black;
     };
+    .myPage {
+        cursor: default;
+    }
 `;
 
 const Divider = styled.div`
@@ -70,3 +117,40 @@ const HeaderLogo = styled.a`
         color: #34495e;
     };
 `;
+
+const MyPageDropdown = styled(Dropdown)`
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    > img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%
+    }
+`
+const MyPageMenu = styled(Menu)`
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        right: 5px;
+        top: 85px;
+        width: 15%;
+        background: skyblue;
+        border-radius: 10px;
+        
+`
+
+const MyPageMenuItem = styled(Menu.Item)`
+    > a {
+            display: flex;
+            text-decoration: none;
+            padding: 10px 0;
+            color: black;
+            > h5 {
+                padding-left: 10;
+                font-size: 20;
+            }
+        };
+`
+
