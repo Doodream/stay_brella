@@ -16,11 +16,20 @@ const theme = {
 }
 
 export default function App({ Component, pageProps }) {
+
+  var localStorage = null;
+  React.useEffect(() => {
+    localStorage = window.localStorage;
+    console.log(localStorage);
+  }, []);
+
   return (
     <React.Fragment>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <AuthProvider localStorage>
+          <Component {...pageProps} />
+        </AuthProvider>
       </ThemeProvider>
     </React.Fragment>
   )
