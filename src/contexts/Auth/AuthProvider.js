@@ -41,12 +41,12 @@ const AuthProvider = ({ children, localStorage }) => {
     const initialState = {
         saveUserInfo,
         login,
-        kakaoLogin,
+        //kakaoLogin,
         logout,
         signUp,
-        kakaoSignUp,
-        uploadReview,
-        settingAccount,
+        //kakaoSignUp,
+        //uploadReview,
+        //settingAccount,
         authUser: prevAuthUser,
         isAuthenticated: 'token' in prevAuthUser,
 

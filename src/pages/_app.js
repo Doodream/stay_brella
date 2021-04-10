@@ -1,5 +1,6 @@
-import React from 'react'
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import React from 'react';
+import AuthProvider from '../contexts/Auth/AuthProvider';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   body {
