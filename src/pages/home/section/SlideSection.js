@@ -51,7 +51,7 @@ A quality guarantee is enclosed and a refund or exchange is possible.</p>
                                                 <Card
                                                     hoverable
                                                     style={{ width: 240 }}
-                                                    cover={<img width='240px' height='240px' src={images[index + 2]} alt='배경이미지'></img>}
+                                                    cover={<img width='240px' height='240px' src={images[(index + 2) % images.length]} alt='배경이미지'></img>}
                                                 >
                                                 </Card>
                                             </a></Link>
@@ -59,7 +59,7 @@ A quality guarantee is enclosed and a refund or exchange is possible.</p>
                                                 <Card
                                                     hoverable
                                                     style={{ width: 240 }}
-                                                    cover={<img width='240px' height='240px' src={images[index + 4]} alt='배경이미지'></img>}
+                                                    cover={<img width='240px' height='240px' src={images[(index + 4) % images.length]} alt='배경이미지'></img>}
                                                 >
                                                 </Card>
                                             </a></Link>
