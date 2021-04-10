@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-
+import 'antd/dist/antd.css';
 //import AuthContext from '../../../contexts/Auth/AuthContext'
 import { Button, Menu, Dropdown } from 'antd';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+
 import styled from 'styled-components';
 
 export default function Header() {
@@ -49,7 +50,7 @@ export default function Header() {
                         <Divider />
                         <MyPageDropdown overlay={menu}
                             onClick={e => e.preventDefault()}
-                            placement="bottomCenter"
+                            placement="bottomRight"
                             arrow
                         >
                             <img src='/layout/staybrella 타이틀로고.png' alt="계정 이미지"></img>
@@ -132,11 +133,12 @@ const MyPageMenu = styled(Menu)`
         cursor: pointer;
         display: flex;
         flex-direction: column;
-        position: fixed;
+        /* position: fixed;
         right: 5px;
-        top: 85px;
-        width: 15%;
-        background: skyblue;
+        top: 85px; */
+        /* width: 15%; */
+        width: 200px;
+        background: white;
         border-radius: 10px;
         
 `
@@ -144,13 +146,22 @@ const MyPageMenu = styled(Menu)`
 const MyPageMenuItem = styled(Menu.Item)`
     > a {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
             text-decoration: none;
-            padding: 10px 0;
+            padding: 10px 15px;
             color: black;
+            text-align : center;
             > h5 {
-                padding-left: 10;
-                font-size: 20;
-            }
-        };
+                padding-left: 10px;
+                font-size: 15px;
+                
+            };
+            > span {
+                    > svg {
+                        width: 20px;
+                        height: 20px;
+                    }
+             };
+        }
 `
-
