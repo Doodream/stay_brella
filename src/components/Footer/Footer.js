@@ -46,7 +46,7 @@ export default function Footer() {
 const Container = styled.div`
     position: relative;
     bottom: 0px;
-    height: 500px;
+    height: 300px;
     width: 100%;
     background: white;
 `
@@ -78,7 +78,9 @@ const FooterMenuList = styled.div`
         text-decoration: none;
         color: #34495e;
         text-align: center;
-       
+        :hover {
+            color: #487eb0;
+        }
     }
 `
 
@@ -101,17 +103,22 @@ const FooterSnsList = styled.ul`
         display: flex;
         align-items : center;
         > span{
-            
             > svg {
             height: 30px;
             width: 30px;
             color: #34495e;
+            :hover{
+                color: #487eb0;
+            }
             };
         }
         > h3 {
         margin: 0px;
         font-size: 30px;
         color: #34495e;
+        :hover{
+                color: #487eb0;
+            }
         }
     };
     

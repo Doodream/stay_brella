@@ -47,23 +47,21 @@ export default function Header() {
                 {
                     isAuthenticated ?
                         <HeaderAccount>
-                            <a className="myPage"><h3> 마이페이지 </h3></a>
-                            <Divider />
+                            <a className="myPage"><h3> Mypage </h3></a>
+
                             <MyPageDropdown overlay={menu}
                                 onClick={e => e.preventDefault()}
                                 placement="bottomRight"
-                                arrow
-                            >
+                                arrow>
                                 <img src='/layout/staybrella 타이틀로고.png' alt="계정 이미지"></img>
                             </MyPageDropdown>
                         </HeaderAccount> :
                         <HeaderAccount>
                             <Link href='/account/login'>
-                                <a><h3>로그인</h3></a>
+                                <a><h3>Login</h3></a>
                             </Link>
-                            <Divider />
                             <Link href='/account/signup'>
-                                <a><h3>회원가입</h3></a>
+                                <a><h3>Signup</h3></a>
                             </Link>
                         </HeaderAccount>
                 }
@@ -92,18 +90,12 @@ const HeaderAccount = styled.div`
     > a {
         text-decoration: none;
         color: black;
+        margin-right: 20px;
     };
     .myPage {
         cursor: default;
     }
 `;
-
-const Divider = styled.div`
-    height: 20px;
-    border-right: 1.5px solid black;
-    margin: 0px 5px;
-`;
-
 
 const HeaderLogo = styled.a`
     display: flex;
