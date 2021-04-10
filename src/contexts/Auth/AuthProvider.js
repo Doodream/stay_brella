@@ -28,6 +28,13 @@ const AuthProvider = ({ children, localStorage }) => {
         router.push('/')
     };
 
+    const signUp = (data) => Fetch.post('/api/signup/', {
+        'name': data.name,
+        'email': data.email,
+        'password': data.password,
+        'image': 'https://tooravel.be/img/imgfile1617785497822.png'
+    }).then(res => router.push('/account/login'));
+
 
 
     //state초기화 객체 입니다.
