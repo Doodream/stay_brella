@@ -59,8 +59,10 @@ export default function Login({ history }) {
     }, []);
 
     const onSubmit = data => {
-        reset()
-        login(data)
+        if (isEmailValid && isPasswordValid) {
+            login(data)
+        }
+        reset();
     }
 
     const validateEmail = (emailEntered) => {
@@ -106,7 +108,7 @@ export default function Login({ history }) {
                             name="basic"
                             onFinish={handleSubmit(onSubmit)}>
                             <Form.Item>
-                                <label for='email' style={{ fontSize: 20 }}>Your Email</label>
+                                <label htmlFor='email' style={{ fontSize: 20 }}>Your Email</label>
                                 <Input
                                     {...register("email")}
                                     name="email"
@@ -116,7 +118,7 @@ export default function Login({ history }) {
                                     allowClear />
                             </Form.Item>
                             <Form.Item>
-                                <label for='password' style={{ fontSize: 20 }}>Your Password</label>
+                                <label htmlFor='password' style={{ fontSize: 20 }}>Your Password</label>
                                 <Input.Password
                                     {...register("password")}
                                     name="password"

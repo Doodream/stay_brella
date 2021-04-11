@@ -37,7 +37,7 @@ A quality guarantee is enclosed and a refund or exchange is possible.</p>
                         images.map((image, index) => {
                             if (image) {
                                 return (
-                                    <div>
+                                    <div key={index}>
                                         <SlideBox>
                                             <Link href="/product"><a>
                                                 <Card

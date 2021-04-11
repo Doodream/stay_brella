@@ -61,8 +61,11 @@ export default function Signup({ history }) {
     }, []);
 
     const onSubmit = data => {
-        reset()
-        signUp(data)
+        if (isEmailValid && isPasswordValid && isReEnterPasswordValid) {
+            signUp(data);
+        }
+        reset();
+
         //alert(JSON.stringify(data));
     }
 
@@ -118,7 +121,7 @@ export default function Signup({ history }) {
                             name="basic"
                             onFinish={handleSubmit(onSubmit)}>
                             <Form.Item>
-                                <label for='name' style={{ fontSize: 20 }}>Your Name</label>
+                                <label htmlFor='name' style={{ fontSize: 20 }}>Your Name</label>
                                 <Input
                                     {...register("name")}
                                     name="name"
@@ -127,7 +130,7 @@ export default function Signup({ history }) {
                                     allowClear />
                             </Form.Item>
                             <Form.Item>
-                                <label for='email' style={{ fontSize: 20 }}>Your Email</label>
+                                <label htmlFor='email' style={{ fontSize: 20 }}>Your Email</label>
                                 <Input
                                     {...register("email")}
                                     name="email"
@@ -137,7 +140,7 @@ export default function Signup({ history }) {
                                     allowClear />
                             </Form.Item>
                             <Form.Item>
-                                <label for='password' style={{ fontSize: 20 }}>Your Password</label>
+                                <label htmlFor='password' style={{ fontSize: 20 }}>Your Password</label>
                                 <Input.Password
                                     {...register("password")}
                                     name="password"
@@ -146,7 +149,7 @@ export default function Signup({ history }) {
                                     allowClear />
                             </Form.Item>
                             <Form.Item>
-                                <label for='password2' style={{ fontSize: 20 }}>Confirm Password</label>
+                                <label htmlFor='password2' style={{ fontSize: 20 }}>Confirm Password</label>
                                 <Input.Password
                                     name="password2"
                                     onChange={(e) => { validateReEnterPassword(e.target.value) }}
