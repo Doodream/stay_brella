@@ -51,6 +51,28 @@ const AuthProvider = ({ children, localStorage }) => {
         'image': 'https://tooravel.be/img/imgfile1617785497822.png'
     }).then(message.success("Welcome! You are now our member! 🎉")).then(res => router.push('/account/login'));
 
+    const settingAccount = ({ email, name, gender, nationality, image }) => Fetch.post('/api/account/setting', {
+        'email': email,
+        'name': name,
+        'gender': gender,
+        'nationality': nationality,
+        'image': image
+    }).then(saveUserInfo).then(res => message.success('Your information has been saved. 📲 '))
+
+    const uploadReview = (data) => {
+        console.log(data);
+        Fetch.post('/api/upload/review', {
+            'name': data.userName,
+            'image': data.userImage,
+            'date': data.date,
+            'rating': data.rating,
+            'comment': data.comment,
+        }).then(res => {
+            alert(res.message)
+        }).catch(err => alert(err));
+    }
+
+
     //state초기화 객체 입니다.
     const initialState = {
         saveUserInfo,
@@ -59,8 +81,8 @@ const AuthProvider = ({ children, localStorage }) => {
         logout,
         signUp,
         kakaoSignUp,
-        //uploadReview,
-        //settingAccount,
+        uploadReview,
+        settingAccount,
         authUser: prevAuthUser,
         isAuthenticated: 'token' in prevAuthUser,
     };
