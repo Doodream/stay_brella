@@ -33,12 +33,12 @@ const Container = styled.div`
     margin: 40px 0px;
 `
 const BannerImage = styled.div`
-    width: 80%;
-    height: 300px;
+    width: 100%;
+    height: 400px;
     > img {
         width: 100%;
         height: 100%;
-        border-radius: 5px;
+        //border-radius: 5px;
     }
 `
 
