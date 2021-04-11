@@ -21,13 +21,27 @@ const AuthProvider = ({ children, localStorage }) => {
         'password': password,
     }).then(saveUserInfo).then(homeRedirect).catch(err => alert(err));
 
+    const kakaoLogin = ({ profile }) => {
+        //console.log(profile);
+        Fetch.post('/api/login/kakao/', {
+            email: profile.kakao_account.email,
+        }).then(saveUserInfo).then(homeRedirect);
+    }
+    const kakaoSignUp = ({ profile }) => Fetch.post('/api/signUp/', {
+        'email': profile.kakao_account.email,
+        'name': profile.properties.nickname,
+        'gender': profile.kakao_account.gender,
+        'image': profile.properties.profile_image,
+    }).then(res => {
+        alert(res.message)
+        res.success ? router.push('/account/login') : null;
+    });
     const logout = () => {
         alert('로그아웃 되었습니다.')
         setValue({ ...initialState, authUser: {}, isAuthenticated: false })
         window.localStorage.clear()
         router.push('/')
     };
-
     const signUp = (data) => Fetch.post('/api/signup/', {
         'name': data.name,
         'email': data.email,
@@ -35,21 +49,18 @@ const AuthProvider = ({ children, localStorage }) => {
         'image': 'https://tooravel.be/img/imgfile1617785497822.png'
     }).then(res => router.push('/account/login'));
 
-
-
     //state초기화 객체 입니다.
     const initialState = {
         saveUserInfo,
         login,
-        //kakaoLogin,
+        kakaoLogin,
         logout,
         signUp,
-        //kakaoSignUp,
+        kakaoSignUp,
         //uploadReview,
         //settingAccount,
         authUser: prevAuthUser,
         isAuthenticated: 'token' in prevAuthUser,
-
     };
     //Hook을 통한 state, setState를 정의합니다.
     const [value, setValue] = React.useState(initialState);
