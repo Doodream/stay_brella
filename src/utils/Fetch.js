@@ -1,7 +1,78 @@
+const strToBool = val => {
+    if (typeof val === 'string') {
+        if (val === 'true')
+            return true
+        else if (val === 'false')
+            return false
+        // throw new Error("Either true or false but not both")
+    }
+    // throw new Error("It is not string type")
+    return val
+}
+
 // fetch()로 부터 반환되는 Promise 객체는 HTTP error 상태를 reject하지 않습니다. 
 // HTTP Statue Code가 404나 500을 반환하더라도요. 
 // 대신 ok 상태가 false인 resolve가 반환되며, 네트워크 장애나 요청이 완료되지 못한 상태에는 reject가 반환됩니다.
 const Fetch = {
+
+    getAuthToken: () => {
+        const isAuthenticated = strToBool(window.localStorage.getItem('isAuthenticated'));
+        const userExist = window.localStorage.getItem('user') !== null;
+
+        if (isAuthenticated && userExist) {
+            const user = JSON.parse(window.localStorage.getItem('user'));
+            if (typeof user.token === 'string' && user.token !== '') {
+                return { "Authorization": "Token " + user.token }
+            }
+        }
+        return {}
+    },
+
+    getHeaders: function ({ extra_headers, external, isFormData }) {
+        let defaultHeaders = (isFormData) ? {} : {
+            "Accept": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
+        }
+
+        let headers;
+
+        if (external) {
+            headers = {
+                ...defaultHeaders,
+                ...extra_headers,
+            }
+        } else {
+            headers = {
+                ...defaultHeaders,
+                // "X-CSRFToken": this.getCookie("csrftoken"),
+                ...this.getAuthToken(),
+                ...extra_headers,
+            }
+        }
+
+        return headers;
+    },
+
+    errorAlert: response => {
+        let message = "";
+        Object.keys(response).map(key => {
+            message += `${key} : ${response[key][0]}\n`;
+
+            return key
+        });
+        alert(message);
+
+        return;
+    },
+
+    clean: data => Object.keys(data).reduce((acc, cur, i) => ({
+        ...acc,
+        ...{
+            [cur]: strToBool(data[cur])
+        }
+    }), {}),
+
+
     makeUrl: (url) => {
         let obj = {};
         if (url[0] === '/') {

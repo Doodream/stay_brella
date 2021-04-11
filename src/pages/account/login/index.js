@@ -60,8 +60,7 @@ export default function Login({ history }) {
 
     const onSubmit = data => {
         reset()
-        //login(data)
-        alert(JSON.stringify(data));
+        login(data)
     }
 
     const validateEmail = (emailEntered) => {
@@ -112,7 +111,7 @@ export default function Login({ history }) {
                                     {...register("email")}
                                     name="email"
                                     autoComplete='email'
-                                    laceholder='example@address.com'
+                                    placeholder='example@address.com'
                                     onChange={(e) => { validateEmail(e.target.value) }}
                                     allowClear />
                             </Form.Item>

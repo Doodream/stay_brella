@@ -62,8 +62,8 @@ export default function Signup({ history }) {
 
     const onSubmit = data => {
         reset()
-        //signUp(data)
-        alert(JSON.stringify(data));
+        signUp(data)
+        //alert(JSON.stringify(data));
     }
 
     const validateEmail = (emailEntered) => {
@@ -109,7 +109,7 @@ export default function Signup({ history }) {
         <Layout>
             <Container>
                 <PageTitle>
-                    <span>Members Signup</span>
+                    <span>Members Register</span>
                     <Divider style={{ boxShadow: '0 0 15px 0 rgb(2 59 109 / 10%)', margin: '10px 0 0 0' }} />
                 </PageTitle>
                 <Section>

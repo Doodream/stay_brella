@@ -8,14 +8,7 @@ import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 export default function Header() {
-    const isAuthenticated = false;
-    // const { authUser, logout, isAuthenticated, homeRedirect } = React.useContext(AuthContext);
-    // const [ishoverList, setIshoverList] = React.useState(false);
-
-    // const hoverListStatus = () => {
-    //     setVisible((prev) => !prev);
-    // }
-
+    const { authUser, logout, isAuthenticated, homeRedirect } = React.useContext(AuthContext);
     const menu = (
         <MyPageMenu>
             <MyPageMenuItem >
@@ -26,7 +19,7 @@ export default function Header() {
                     </a>
                 </Link>
             </MyPageMenuItem>
-            <MyPageMenuItem  >
+            <MyPageMenuItem onClick={logout}>
                 <a>
                     <LogoutOutlined />
                     <h5>로그아웃</h5>
@@ -53,7 +46,7 @@ export default function Header() {
                                 onClick={e => e.preventDefault()}
                                 placement="bottomRight"
                                 arrow>
-                                <img src='/layout/staybrella 타이틀로고.png' alt="계정 이미지"></img>
+                                <img src={authUser.image} alt="계정 이미지"></img>
                             </MyPageDropdown>
                         </HeaderAccount> :
                         <HeaderAccount>

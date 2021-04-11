@@ -3,6 +3,9 @@ import { withRouter, useRouter } from "next/router";
 import AuthContext from './AuthContext.js';
 import { Fetch } from '../../utils/Fetch';
 
+import 'antd/dist/antd.css';
+import { message } from 'antd';
+
 const AuthProvider = ({ children, localStorage }) => {
 
     const [prevAuthUser, setPrevAuthUser] = React.useState(localStorage.user || {})
@@ -19,25 +22,24 @@ const AuthProvider = ({ children, localStorage }) => {
     const login = ({ email, password }) => Fetch.post('/api/login/', {
         'email': email,
         'password': password,
-    }).then(saveUserInfo).then(homeRedirect).catch(err => alert(err));
+    }).then(saveUserInfo).then(message.success("You ard logged In")).then(homeRedirect).catch(err => message.error(err.message));
 
     const kakaoLogin = ({ profile }) => {
         //console.log(profile);
         Fetch.post('/api/login/kakao/', {
             email: profile.kakao_account.email,
-        }).then(saveUserInfo).then(homeRedirect);
+        }).then(saveUserInfo).then(message.success("Hi! You ard logged In 😆 🖐")).then(homeRedirect);
     }
     const kakaoSignUp = ({ profile }) => Fetch.post('/api/signUp/', {
         'email': profile.kakao_account.email,
         'name': profile.properties.nickname,
         'gender': profile.kakao_account.gender,
         'image': profile.properties.profile_image,
-    }).then(res => {
-        alert(res.message)
+    }).then(message.success("Welcome! You are now our member! 🎉")).then(res => {
         res.success ? router.push('/account/login') : null;
     });
     const logout = () => {
-        alert('로그아웃 되었습니다.')
+        message.success('You have been logged out')
         setValue({ ...initialState, authUser: {}, isAuthenticated: false })
         window.localStorage.clear()
         router.push('/')
@@ -47,7 +49,7 @@ const AuthProvider = ({ children, localStorage }) => {
         'email': data.email,
         'password': data.password,
         'image': 'https://tooravel.be/img/imgfile1617785497822.png'
-    }).then(res => router.push('/account/login'));
+    }).then(message.success("Welcome! You are now our member! 🎉")).then(res => router.push('/account/login'));
 
     //state초기화 객체 입니다.
     const initialState = {
