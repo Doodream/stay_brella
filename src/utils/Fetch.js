@@ -4,14 +4,12 @@ const strToBool = val => {
             return true
         else if (val === 'false')
             return false
-        // throw new Error("Either true or false but not both")
     }
-    // throw new Error("It is not string type")
     return val
 }
 
-// fetch()로 부터 반환되는 Promise 객체는 HTTP error 상태를 reject하지 않습니다. 
-// HTTP Statue Code가 404나 500을 반환하더라도요. 
+// fetch()로 부터 반환되는 Promise 객체는 HTTP Statue Code가 404나 500을 반환하더라도 
+// HTTP error 상태를 reject하지 않습니다. 
 // 대신 ok 상태가 false인 resolve가 반환되며, 네트워크 장애나 요청이 완료되지 못한 상태에는 reject가 반환됩니다.
 const Fetch = {
 
@@ -44,7 +42,6 @@ const Fetch = {
         } else {
             headers = {
                 ...defaultHeaders,
-                // "X-CSRFToken": this.getCookie("csrftoken"),
                 ...this.getAuthToken(),
                 ...extra_headers,
             }
@@ -141,9 +138,6 @@ const Fetch = {
             }
             throw new TypeError("Response is not ok!");
         })
-        // .catch(err=>{
-        //     console.error('There has been a problem with your fetch operation: ', err.message)
-        // })
     },
 }
 
