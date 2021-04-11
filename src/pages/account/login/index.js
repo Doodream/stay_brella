@@ -7,7 +7,6 @@ import { Button, message, Space, Divider, Input, Form, Checkbox } from 'antd';
 import { useForm } from "react-hook-form";
 import AuthContext from '../../../contexts/Auth/AuthContext';
 import KaKaoLogin from 'react-kakao-login';
-import { MessageOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
 import Layout from '../../../components/Layout/Layout';
 
@@ -61,7 +60,7 @@ export default function Login({ history }) {
 
     const onSubmit = data => {
         reset()
-        //ogin(data)
+        //login(data)
         alert(JSON.stringify(data));
     }
 
@@ -107,32 +106,22 @@ export default function Login({ history }) {
                         <Form
                             name="basic"
                             onFinish={handleSubmit(onSubmit)}>
-                            <Form.Item
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your username!',
-                                    },
-                                ]}>
+                            <Form.Item>
                                 <label for='email' style={{ fontSize: 20 }}>Your Email</label>
                                 <Input
                                     {...register("email")}
                                     name="email"
                                     autoComplete='email'
+                                    laceholder='example@address.com'
                                     onChange={(e) => { validateEmail(e.target.value) }}
                                     allowClear />
                             </Form.Item>
-                            <Form.Item
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your password!',
-                                    },
-                                ]}>
+                            <Form.Item>
                                 <label for='password' style={{ fontSize: 20 }}>Your Password</label>
                                 <Input.Password
                                     {...register("password")}
                                     name="password"
+                                    placeholder='8 to 15 including special characters / letters / numbers'
                                     onChange={(e) => { validatePassword(e.target.value) }}
                                     allowClear />
                             </Form.Item>
@@ -152,26 +141,6 @@ export default function Login({ history }) {
                                 >KaKao</KaKaoLogin>
                             </Form.Item>
                         </Form>
-                        {/* <Form onSubmit={handleSubmit(onSubmit)}>
-                            <LoginInput.Email
-                                name='email'
-                                ref={register}
-                                onChange={(e) => { validateEmail(e.target.value) }}
-                                placeholder='email : abc@gmail.com'
-                                autoComplete='email'
-                                allowClear />
-                            <LoginInput.Password
-                                name='password'
-                                ref={register}
-                                onChange={(e) => { validatePassword(e.target.value) }}
-                                placeholder='password : 8 to 15 numbers, letters, special characters'
-                                allowClear
-                                iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
-                            <SubmitButton
-                                htmlType="submit"
-                                onClick={formCheck}>Login
-                            </SubmitButton>
-                        </Form> */}
                         <Divider />
                         <LoginSignup>
                             <Link href='/account/signup'>
