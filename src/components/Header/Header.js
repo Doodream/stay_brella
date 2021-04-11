@@ -8,7 +8,7 @@ import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 export default function Header() {
-    const isAuthenticated = true;
+    const isAuthenticated = false;
     // const { authUser, logout, isAuthenticated, homeRedirect } = React.useContext(AuthContext);
     // const [ishoverList, setIshoverList] = React.useState(false);
 

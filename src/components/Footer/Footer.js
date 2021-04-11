@@ -49,6 +49,7 @@ const Container = styled.div`
     height: 300px;
     width: 100%;
     background: white;
+    border-top: 1px solid #f1f2f6;
 `
 
 const Section = styled.div`

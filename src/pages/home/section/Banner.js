@@ -30,7 +30,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     position: relative;
-    margin: 40px 0px;
+    margin: 40px 0px 0px 0px;
 `
 const BannerImage = styled.div`
     width: 100%;
@@ -44,7 +44,7 @@ const BannerImage = styled.div`
 
 const BannerTitle = styled.div`
     position: absolute;
-    top: 13%;
+    top: 23%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -52,10 +52,10 @@ const BannerTitle = styled.div`
     flex-direction: column;
     color: white;
     .subTitle {
-        font-size : 18px;
+        font-size : 1.3rem;
     }
     .mainTitle{
-        font-size : 35px;
+        font-size : 2.5rem;
         margin-top: 10px;
         font-weight: 800;
     }
