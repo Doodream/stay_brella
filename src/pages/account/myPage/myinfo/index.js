@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 import 'antd/dist/antd.css';
@@ -36,14 +36,36 @@ export default function SettingAccount() {
     )
     const [userImage, setUserImage] = useState(null);
 
-    const { signUp, kakaoSignUp, isAuthenticated, settingAccount } = React.useContext(AuthContext);
+    const { initAuthUser, settingAccount } = React.useContext(AuthContext);
     const { handleSubmit, register, reset, setValue } = useForm({ reValidateMode: 'onBlur' });
 
     const imageUpload = (e) => {
-        setUserImage(e.target.files[0]);
-        console.log(userImage);
-        message.success("Click the 'Change your avatar' ✅");
+        if (e.target.files[0] !== undefined) {
+            setUserImage(e.target.files[0]);
+            message.success("Click the 'Change your avatar' 📸");
+        }
     }
+
+    // const promiseAll = (formData) => {
+    //     Promise.all([
+    //         Fetch.post('/api/upload/image', formData).then((res) => {
+    //             console.log(res, "imageUpload - settingAccount");
+    //             setUserUploadedImage(
+    //                 {
+    //                     fileName: res.fileName,
+    //                     filePath: `${baseUrl}/img/${res.fileName}`
+    //                 }
+    //             )
+    //         }).catch(err => {
+    //             console.error(err);
+    //         })
+    //         , settingAccount({
+    //             ...user,
+    //             image: userUploadedImage.filePath
+    //         })
+    //     ]).then(message.success("Complete! promise!"));
+    // }
+
     const imageUploadServer = (data) => {
         if (userImage === null) {
             message.warning("Please upload an image");
@@ -51,28 +73,35 @@ export default function SettingAccount() {
         }
         const formData = new FormData();
         formData.append("image", userImage);
-        Fetch.post('/api/upload/image', formData).then(res => {
-            //console.log(res);
-            const { fileName } = res;
-            setUserUploadedImage({
-                fileName: res.fileName,
-                filePath: `${baseUrl}/img/${fileName}`
-            })
-        }).then(res => {
-            var newUserInfo = {
-                ...user,
-                name: name,
-                gender: gender,
-                nationality: nationality,
-                image: userUploadedImage.filePath,
-            }
-            console.log(JSON.stringify(newUserInfo));
-            window.localStorage.setItem('user', JSON.stringify(newUserInfo));
-            settingAccount(newUserInfo);
+        //promiseAll(formData);
+
+        Fetch.post('/api/upload/image', formData).then((res) => {
+            console.log(res, "imageUpload - setUserUploadedImage, initAuthUser");
+            setUserUploadedImage(
+                {
+                    fileName: res.fileName,
+                    filePath: `${baseUrl}/img/${res.fileName}`
+                }
+            )
+
         }).catch(err => {
             console.error(err);
-        });
+        })
     }
+
+    useEffect(() => {
+        console.log("settingAccount 실행")
+        settingAccount({
+            ...user,
+            image: userUploadedImage.filePath
+        }).then(res => {
+            initAuthUser({
+                ...user,
+                image: userUploadedImage.filePath
+            })
+        })
+
+    }, [userUploadedImage])
 
     const accountInfoUpload = (data) => {
         if (name === "" || gender === "" || nationality === "") {
@@ -86,9 +115,8 @@ export default function SettingAccount() {
             nationality: nationality,
             image: userUploadedImage.filePath,
         }
-
         //console.log(newUserInfo);
-        settingAccount(newUserInfo);
+        settingAccount(newUserInfo).then(initAuthUser(newUserInfo));
         window.localStorage.setItem('user', JSON.stringify(newUserInfo));
     }
 
