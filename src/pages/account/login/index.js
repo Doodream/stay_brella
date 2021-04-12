@@ -91,8 +91,8 @@ export default function Login({ history }) {
     }
     // 이메일 형식 검사, 비밀번호 형식 검사
     const formCheck = () => {
-        if (!isEmailValid) message.warning("이메일을 형식에 맞게 입력해주세요");
-        if (!isPasswordValid) message.warning("비밀번호를 형식에 맞게 입력해주세요");
+        if (!isEmailValid) message.warning("이메일을 형식에 맞게 입력해주세요 🥺");
+        if (!isPasswordValid) message.warning("비밀번호를 형식에 맞게 입력해주세요 🥺");
     }
 
     return (
@@ -133,7 +133,7 @@ export default function Login({ history }) {
                                 <KaKaoLogin
                                     //className={classes.loginKakao}
                                     style={styleKakaoLogin}
-                                    token='0dbc092d8a49e7456606d2cab34a0b88'
+                                    token='c7ba5e0cf660a7201f1856db793838fb'
                                     onSuccess={kakaoLogin}
                                     onFailure={result =>
                                         message.error("로그인에 실패 하셨습니다.")
