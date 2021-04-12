@@ -8,7 +8,15 @@ import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 export default function Header() {
-    const { authUser, logout, isAuthenticated, homeRedirect } = React.useContext(AuthContext);
+
+
+    const { authUser, logout, isAuthenticated, homeRedirect, prevAuthUser } = React.useContext(AuthContext);
+    const [userImage, setUsetImage] = React.useState(authUser.image);
+    React.useEffect(() => {
+        setUsetImage(authUser.image);
+        console.log(authUser, "Header authUser");
+    }, [authUser])
+
     const menu = (
         <MyPageMenu>
             <MyPageMenuItem >
@@ -46,7 +54,7 @@ export default function Header() {
                                 onClick={e => e.preventDefault()}
                                 placement="bottomRight"
                                 arrow>
-                                <img src={authUser.image} alt="계정 이미지"></img>
+                                <img src={userImage} alt="계정 이미지"></img>
                             </MyPageDropdown>
                         </HeaderAccount> :
                         <HeaderAccount>
@@ -88,6 +96,11 @@ const HeaderAccount = styled.div`
     .myPage {
         cursor: default;
     }
+    > img {
+        width: 2.3rem;
+        height: 2.3rem;
+        border-radius: 50%;
+    }
 `;
 
 const HeaderLogo = styled.a`
@@ -112,11 +125,7 @@ const MyPageDropdown = styled(Dropdown)`
     width: 40px;
     display: flex;
     justify-content: center;
-    > img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%
-    }
+    
 `
 const MyPageMenu = styled(Menu)`
         cursor: pointer;
