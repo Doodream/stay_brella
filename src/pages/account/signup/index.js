@@ -9,6 +9,7 @@ import AuthContext from '../../../contexts/Auth/AuthContext';
 import KaKaoLogin from 'react-kakao-login';
 import { MessageOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
+import Container from '../../../components/Container/Container';
 import Layout from '../../../components/Layout/Layout';
 
 const tailLayout = {
@@ -110,11 +111,7 @@ export default function Signup({ history }) {
 
     return (
         <Layout>
-            <Container>
-                <PageTitle>
-                    <span>Members Register</span>
-                    <Divider style={{ boxShadow: '0 0 15px 0 rgb(2 59 109 / 10%)', margin: '10px 0 0 0' }} />
-                </PageTitle>
+            <Container title={"Members Signup"}>
                 <Section>
                     <Inner>
                         <Form
@@ -186,21 +183,6 @@ export default function Signup({ history }) {
     )
 }
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-    justify-content: center;
-    background: white;
-`
-
-const PageTitle = styled.div`
-    width: 90%;
-    > span {
-        font-size: 2rem;
-        color: #34495e;
-    }
-`
 const Section = styled.div`
     display: flex;
     justify-content: center;

@@ -10,6 +10,7 @@ import { Fetch } from "../../../../utils/Fetch";
 import { MessageOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
 import Layout from '../../../../components/Layout/Layout';
+import Container from '../../../../components/Container/Container';
 import { useRouter } from 'next/router';
 
 const tailLayout = {
@@ -45,27 +46,6 @@ export default function SettingAccount() {
             message.success("Click the 'Change your avatar' 📸");
         }
     }
-
-    // const promiseAll = (formData) => {
-    //     Promise.all([
-    //         Fetch.post('/api/upload/image', formData).then((res) => {
-    //             console.log(res, "imageUpload - settingAccount");
-    //             setUserUploadedImage(
-    //                 {
-    //                     fileName: res.fileName,
-    //                     filePath: `${baseUrl}/img/${res.fileName}`
-    //                 }
-    //             )
-    //         }).catch(err => {
-    //             console.error(err);
-    //         })
-    //         , settingAccount({
-    //             ...user,
-    //             image: userUploadedImage.filePath
-    //         })
-    //     ]).then(message.success("Complete! promise!"));
-    // }
-
     const imageUploadServer = (data) => {
         if (userImage === null) {
             message.warning("Please upload an image");
@@ -73,24 +53,21 @@ export default function SettingAccount() {
         }
         const formData = new FormData();
         formData.append("image", userImage);
-        //promiseAll(formData);
+
 
         Fetch.post('/api/upload/image', formData).then((res) => {
-            console.log(res, "imageUpload - setUserUploadedImage, initAuthUser");
             setUserUploadedImage(
                 {
                     fileName: res.fileName,
                     filePath: `${baseUrl}/img/${res.fileName}`
                 }
             )
-
         }).catch(err => {
             console.error(err);
         })
     }
 
     useEffect(() => {
-        console.log("settingAccount 실행")
         settingAccount({
             ...user,
             image: userUploadedImage.filePath
@@ -100,7 +77,6 @@ export default function SettingAccount() {
                 image: userUploadedImage.filePath
             })
         })
-
     }, [userUploadedImage])
 
     const accountInfoUpload = (data) => {
@@ -115,18 +91,13 @@ export default function SettingAccount() {
             nationality: nationality,
             image: userUploadedImage.filePath,
         }
-        //console.log(newUserInfo);
         settingAccount(newUserInfo).then(initAuthUser(newUserInfo));
         window.localStorage.setItem('user', JSON.stringify(newUserInfo));
     }
 
     return (
         <Layout>
-            <Container>
-                <PageTitle>
-                    <span>My Infomation</span>
-                    <Divider style={{ boxShadow: '0 0 15px 0 rgb(2 59 109 / 10%)', margin: '10px 0 0 0' }} />
-                </PageTitle>
+            <Container title={"Members Registration"}>
                 <ContainerBox>
                     <ImageForm onSubmit={handleSubmit(imageUploadServer)}>
                         <label htmlFor='img_file'><img src={userUploadedImage.filePath ? userUploadedImage.filePath : user.image} alt="계정 이미지"></img></label>
@@ -207,26 +178,11 @@ export default function SettingAccount() {
     )
 }
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-    justify-content: center;
-    background: white;
-`
 
 const ContainerBox = styled.div`
     display: flex;
     width: 100%;
     justify-content: center;
-`
-
-const PageTitle = styled.div`
-    width: 90%;
-    > span {
-        font-size: 2rem;
-        color: #34495e;
-    }
 `
 const Section = styled.div`
     display: flex;

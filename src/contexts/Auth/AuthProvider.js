@@ -93,7 +93,6 @@ const AuthProvider = ({ children, localStorage }) => {
         console.log(data, "initAuthUser Path");
         setPrevAuthUser(data);
     }
-
     //state초기화 객체 입니다.
     const initialState = {
         saveUserInfo,

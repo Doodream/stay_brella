@@ -12,9 +12,9 @@ export default function Header() {
 
     const { authUser, logout, isAuthenticated, homeRedirect, prevAuthUser } = React.useContext(AuthContext);
     const [userImage, setUsetImage] = React.useState(authUser.image);
+
     React.useEffect(() => {
         setUsetImage(authUser.image);
-        console.log(authUser, "Header authUser");
     }, [authUser])
 
     const menu = (
