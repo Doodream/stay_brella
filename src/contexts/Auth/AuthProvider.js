@@ -35,21 +35,35 @@ const AuthProvider = ({ children, localStorage }) => {
         'name': profile.properties.nickname,
         'gender': profile.kakao_account.gender,
         'image': profile.properties.profile_image,
-    }).then(message.success("Welcome! You are now our member! 🎉")).then(res => {
-        res.success ? router.push('/account/login') : null;
-    });
+    }).then(res => {
+        if (res.success) {
+            router.push('/account/login')
+            message.success("Welcome! You are now our member! 🎉");
+        } else {
+            message.error("Already subscribed. 🤔");
+        }
+    })
+
     const logout = () => {
         message.success('You have been logged out')
         setValue({ ...initialState, authUser: {}, isAuthenticated: false })
         window.localStorage.clear()
         router.push('/')
     };
+
     const signUp = (data) => Fetch.post('/api/signup/', {
         'name': data.name,
         'email': data.email,
         'password': data.password,
         'image': 'https://tooravel.be/img/imgfile1617785497822.png'
-    }).then(message.success("Welcome! You are now our member! 🎉")).then(res => router.push('/account/login'));
+    }).then(res => {
+        if (res.success) {
+            router.push('/account/login')
+            message.success("Welcome! You are now our member! 🎉");
+        } else {
+            message.error("Already subscribed. 🤔");
+        }
+    })
 
     const settingAccount = async ({ email, name, gender, nationality, image }) => await Fetch.post('/api/account/setting', {
         'email': email,
