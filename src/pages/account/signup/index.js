@@ -162,7 +162,7 @@ export default function Signup({ history }) {
                                 <KaKaoLogin
                                     //className={classes.loginKakao}
                                     style={styleKakaoLogin}
-                                    token='0dbc092d8a49e7456606d2cab34a0b88'
+                                    token='c7ba5e0cf660a7201f1856db793838fb'
                                     onSuccess={kakaoSignUp}
                                     onFailure={result =>
                                         message.error("로그인에 실패 하셨습니다.")
