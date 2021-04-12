@@ -12,12 +12,12 @@ const AuthProvider = ({ children, localStorage }) => {
     const router = useRouter();
     const homeRedirect = () => router.push('/')
     const saveUserInfo = res => {
+        console.log(res, "saveUserInfo Path");
         if (!res.loginSuccess) {
             throw new Error("아이디나 비밀번호가 맞지 않습니다.");
         }
         const newAuthUser = { ...prevAuthUser, ...res }
         setPrevAuthUser(newAuthUser)
-        console.log(prevAuthUser);
     }
     const login = ({ email, password }) => Fetch.post('/api/login/', {
         'email': email,
@@ -51,13 +51,16 @@ const AuthProvider = ({ children, localStorage }) => {
         'image': 'https://tooravel.be/img/imgfile1617785497822.png'
     }).then(message.success("Welcome! You are now our member! 🎉")).then(res => router.push('/account/login'));
 
-    const settingAccount = ({ email, name, gender, nationality, image }) => Fetch.post('/api/account/setting', {
+    const settingAccount = async ({ email, name, gender, nationality, image }) => await Fetch.post('/api/account/setting', {
         'email': email,
         'name': name,
         'gender': gender,
         'nationality': nationality,
         'image': image
-    }).then(saveUserInfo).then(res => message.success('Your information has been saved. 📲 '))
+    }).then(res => {
+        console.log(res, "settingAccount Path")
+        return res;
+    }).then(saveUserInfo).then(message.success('Your information has been saved. 📲 '));
 
     const uploadReview = (data) => {
         console.log(data);
@@ -68,10 +71,14 @@ const AuthProvider = ({ children, localStorage }) => {
             'rating': data.rating,
             'comment': data.comment,
         }).then(res => {
-            alert(res.message)
+            message.success(res.message)
         }).catch(err => alert(err));
     }
 
+    const initAuthUser = (data) => {
+        console.log(data, "initAuthUser Path");
+        setPrevAuthUser(data);
+    }
 
     //state초기화 객체 입니다.
     const initialState = {
@@ -83,6 +90,7 @@ const AuthProvider = ({ children, localStorage }) => {
         kakaoSignUp,
         uploadReview,
         settingAccount,
+        initAuthUser,
         authUser: prevAuthUser,
         isAuthenticated: 'token' in prevAuthUser,
     };
@@ -93,7 +101,7 @@ const AuthProvider = ({ children, localStorage }) => {
         console.log('prevAuthUser change')
         if (Object.keys(prevAuthUser).length > 0) {
             console.log('prevAuthUser not null')
-            console.log(prevAuthUser)
+            console.log(prevAuthUser, "prevAuthUser change")
             setValue({
                 ...initialState,
                 authUser: prevAuthUser,
