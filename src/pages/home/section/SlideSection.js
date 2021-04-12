@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Button, Card, Carousel } from 'antd';
 
 
-import Slider from "react-slick";
+
 
 const images = [
     '/home/umbrella1.png',
