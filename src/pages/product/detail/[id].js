@@ -79,9 +79,10 @@ function Detail({ router }) {
                                     <img src="/product/arrow.png" alt='watch-arrow'></img>
                                 </VideoMessage>
                             </div>
-                            {/* <div>
+                            <Divider />
+                            <div>
                                 <Review id={data.id} />
-                            </div> */}
+                            </div>
                         </ProductMain>
                     </ProductSection>
                     <CartMain>

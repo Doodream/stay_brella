@@ -52,8 +52,6 @@ export default function Cart({ data }) {
         message.success("Add to Cart Success! 🧺")
 
     }
-
-
     const getTotalPrice = () => {
         var count = 0;
         cart !== null && cart.map(product => {
@@ -65,7 +63,6 @@ export default function Cart({ data }) {
     useEffect(() => {
         getTotalPrice();
     }, [cart])
-
 
     useEffect(() => {
         setIsAuthenticated(JSON.parse(window.localStorage.getItem('user')).token)
