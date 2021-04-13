@@ -132,7 +132,7 @@ export default function Login({ history }) {
                                     token='c7ba5e0cf660a7201f1856db793838fb'
                                     onSuccess={kakaoLogin}
                                     onFailure={result =>
-                                        message.error("로그인에 실패 하셨습니다.")
+                                        message.error("Login failed.")
                                     }
                                     getProfile={true}
                                 >KaKao</KaKaoLogin>
