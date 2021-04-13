@@ -84,9 +84,10 @@ const AuthProvider = ({ children, localStorage }) => {
             'date': data.date,
             'rating': data.rating,
             'comment': data.comment,
+            'productId': data.productId
         }).then(res => {
             message.success(res.message)
-        }).catch(err => alert(err));
+        }).catch(err => message.error(err));
     }
 
     const initAuthUser = (data) => {
