@@ -12,7 +12,6 @@ import Goods from '../../../components/Goods/Goods';
 import Cart from '../detail/Cart/Cart';
 import VideoCard from '../../../components/VideoCard/VideoCard';
 import Review from '../detail/Review/Review';
-import AuthContext from '../../../contexts/Auth/AuthContext';
 
 const Content = () => {
     return (
@@ -51,7 +50,6 @@ const Content = () => {
 
 function Detail({ router }) {
     const [data, setData] = React.useState(JSON.parse(router.query.data));
-    const [authUser, isAuthenticated] = React.useContext(AuthContext);
     React.useEffect(() => {
         console.log(data, "detail page");
     }, [])
@@ -81,9 +79,9 @@ function Detail({ router }) {
                                     <img src="/product/arrow.png" alt='watch-arrow'></img>
                                 </VideoMessage>
                             </div>
-                            <div>
+                            {/* <div>
                                 <Review id={data.id} />
-                            </div>
+                            </div> */}
                         </ProductMain>
                     </ProductSection>
                     <CartMain>

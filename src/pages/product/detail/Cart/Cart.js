@@ -56,8 +56,8 @@ export default function Cart({ data }) {
 
     const getTotalPrice = () => {
         var count = 0;
-        cart.map(product => {
-            count += product.quantity * product.price;
+        cart !== null && cart.map(product => {
+            count += product.quantity * product.price
         })
         setTotalPrice(count);
     }
