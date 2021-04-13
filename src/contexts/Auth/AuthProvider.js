@@ -77,7 +77,7 @@ const AuthProvider = ({ children, localStorage }) => {
     }).then(saveUserInfo).then(message.success('Your information has been saved. 📲 '));
 
     const uploadReview = (data) => {
-        console.log(data);
+        console.log(data, "in uploadReview");
         Fetch.post('/api/upload/review', {
             'name': data.userName,
             'image': data.userImage,
@@ -86,8 +86,8 @@ const AuthProvider = ({ children, localStorage }) => {
             'comment': data.comment,
             'productId': data.productId
         }).then(res => {
-            message.success(res.message)
-        }).catch(err => message.error(err));
+            res.reviewSave ? message.success(res.message) : alert(res.message);
+        }).catch(err => alert(err));
     }
 
     const initAuthUser = (data) => {
