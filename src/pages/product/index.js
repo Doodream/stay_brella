@@ -384,7 +384,7 @@ export default function Product() {
                             products.map((product, index) => {
                                 return index >= state.minIndex &&
                                     index < state.maxIndex && (
-                                        <Item key={index} id={index} imagePath={product.image} title={product.title} description={product.description} product />
+                                        <Item key={index} id={index} imagePath={product.image} title={product.title} description={product.description} price={product.price} quantity={product.quantity} />
                                     )
                             })
                         }
