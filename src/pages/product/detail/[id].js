@@ -49,14 +49,14 @@ const Content = () => {
 }
 
 function Detail({ router }) {
-    const [data, setData] = React.useState(JSON.parse(router.query.data || {
+    const [data, setData] = React.useState(router.query.data ? JSON.parse(router.query.data) : {
         imagePath: "",
         title: "",
         price: 0,
         description: "",
         id: 0,
         quantity: 0,
-    }));
+    });
     React.useEffect(() => {
         console.log(data, "detail page");
     }, [])
