@@ -22,19 +22,20 @@ export default function Footer() {
                     <FooterInfoText>StayBrella | 대표 : 노두현 TEL : 010-3553-8916 카카오톡 : rhomo17</FooterInfoText>
                     <FooterInfoText>COPYRIGHT (c) 2021 ALL RIGHT RESERVED StayBrella</FooterInfoText>
                     <FooterSnsList>
-                        <a href='https://www.facebook.com/tooravel/' target='_blank'><FacebookOutlined /></a>
-                        <a href='https://www.instagram.com/tooravel/' target='_blank'><InstagramOutlined /></a>
-                        <a href='https://blog.naver.com/tooravel' target='_blank'><h3>N</h3></a>
+                        <a href='https://m.facebook.com/rhodoohyun' target='_blank'><FacebookOutlined /></a>
+                        <a href='https://www.instagram.com/' target='_blank'><InstagramOutlined /></a>
+                        <a href='https://doodreamcode.tistory.com/' target='_blank'><img src="/home/티스토리.png"></img></a>
+                        <a href='https://velog.io/@doodream' target='_blank'><img src="/home/velog.jpeg"></img></a>
                     </FooterSnsList>
                 </FooterInfo>
                 <FooterMenu>
                     <FooterMenuList>
                         <FooterMenuTitle level={5}>Company</FooterMenuTitle>
-                        <Link href='/about/intro'><a><CaretRightOutlined /> About</a></Link>
+                        <a href='https://github.com/Doodream' target='_blank'><CaretRightOutlined /> Github</a>
                     </FooterMenuList>
                     <FooterMenuList>
                         <FooterMenuTitle level={5}>Contact</FooterMenuTitle>
-                        <Link href='/about/contact'><a><CaretRightOutlined /> Location</a></Link>
+                        <a href='https://www.notion.so/doodream17/84c9d2322cc44f4bbf9ecb4ca072399c' target='_blank'><CaretRightOutlined />Introduce</a>
                         <a href='mailto:doodream17@naver.com'><CaretRightOutlined /> Email</a>
                     </FooterMenuList>
                 </FooterMenu>
@@ -113,9 +114,10 @@ const FooterSnsList = styled.ul`
             }
             };
         }
-        > h3 {
+        > img {
         margin: 0px;
-        font-size: 30px;
+        width: 30px;
+        height: 30px;
         color: #34495e;
         :hover{
                 color: #487eb0;
