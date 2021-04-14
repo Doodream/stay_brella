@@ -18,7 +18,7 @@ export default function Goods(props) {
                 <a>
                     <Card
                         hoverable
-                        style={{ width: 240, height: 360, marginBottom: '2rem' }}
+                        style={{ width: 240, height: 360, margin: '1rem' }}
                         cover={<img width='240px' height='240px' src={props.imagePath} alt='배경이미지'></img>}>
                         <Meta title={props.title} description={props.description} />
                     </Card>

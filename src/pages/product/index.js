@@ -379,22 +379,24 @@ export default function Product() {
                     <div className="productCount">
                         <span>{products.length} products</span>
                     </div>
-                    <Inner>
-                        {
-                            products.map((product, index) => {
-                                return index >= state.minIndex &&
-                                    index < state.maxIndex && (
-                                        <Item key={index} id={index} imagePath={product.image} title={product.title} description={product.description} price={product.price} quantity={product.quantity} />
-                                    )
-                            })
-                        }
-                    </Inner>
+                    <InnerBox>
+                        <Inner>
+                            {
+                                products.map((product, index) => {
+                                    return index >= state.minIndex &&
+                                        index < state.maxIndex && (
+                                            <Item key={index} id={index} imagePath={product.image} title={product.title} description={product.description} price={product.price} quantity={product.quantity} />
+                                        )
+                                })
+                            }
+                        </Inner>
+                    </InnerBox>
                     <Pagination
                         pageSize={pageSize}
                         current={state.current}
                         total={products.length}
                         onChange={handleChange}
-                        style={{ bottom: "0px", margin: '20px auto' }}></Pagination>
+                        style={{ bottom: "0px", margin: '20px auto' }} />
                 </Section>
             </Container>
         </Layout>
@@ -409,17 +411,21 @@ const Section = styled.div`
         margin: 10px 0;
         > span{
         font-size: 1.2rem;
+        }
     }
-    }
-   
-    
+`
+
+const InnerBox = styled.div`
+    height: calc(100vh - 20);
+    width: calc(100vw - 20);
+    display: flex;
+    justify-content: center;
 `
 const Inner = styled.div`
-    display: flex;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    justify-content: space-between;
-    
+    display: flex;
 `
 const Item = styled(Goods)`
-    margin-bottom: 20px;
+    width: auto;
 `
