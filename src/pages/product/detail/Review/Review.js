@@ -29,7 +29,7 @@ export default function Review({ id }) {
             product: product
         }).then(res => {
             console.log(res, "GetReviews");
-            setReviews(res);
+            setReviews(res.sort((a, b) => b.keyId - a.keyId));
         }).catch(err => {
             message.error(err);
         })
@@ -80,8 +80,7 @@ export default function Review({ id }) {
             <ReviewCount> {reviews.length} Review</ReviewCount>
             <div style={{ margin: '1rem 0' }}>
                 {
-                    // reviews.length !== 0 ??
-                    isHiddenReview ? reviews.reverse().map((review, index) => {
+                    isHiddenReview ? reviews.map((review, index) => {
                         return (
                             <ReviewComment
                                 key={index}
@@ -92,7 +91,7 @@ export default function Review({ id }) {
                                 comment={review.comment}
                             />
                         )
-                    }) : reviews.slice(reviews.length - 3, reviews.length).reverse().map((review, index) => {
+                    }) : reviews.slice(0, 3).map((review, index) => {
                         return (
                             <ReviewComment
                                 key={index}
