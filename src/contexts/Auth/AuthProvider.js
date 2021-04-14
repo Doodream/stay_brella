@@ -14,21 +14,22 @@ const AuthProvider = ({ children, localStorage }) => {
     const saveUserInfo = res => {
         console.log(res, "saveUserInfo Path");
         if (!res.loginSuccess) {
-            throw new Error("아이디나 비밀번호가 맞지 않습니다.");
+            throw new Error(res.message);
         }
         const newAuthUser = { ...prevAuthUser, ...res }
         setPrevAuthUser(newAuthUser)
+        return res;
     }
     const login = ({ email, password }) => Fetch.post('/api/login/', {
         'email': email,
         'password': password,
-    }).then(saveUserInfo).then(message.success("You ard logged In")).then(homeRedirect).catch(err => message.error(err.message));
+    }).then(saveUserInfo).then(homeRedirect).catch(err => message.error(err.message));
 
     const kakaoLogin = ({ profile }) => {
         //console.log(profile);
         Fetch.post('/api/login/kakao/', {
             email: profile.kakao_account.email,
-        }).then(saveUserInfo).then(message.success("Hi! You ard logged In 😆 🖐")).then(homeRedirect);
+        }).then(saveUserInfo).then(homeRedirect).catch(err => message.error(err.message));
     }
     const kakaoSignUp = ({ profile }) => Fetch.post('/api/signUp/', {
         'email': profile.kakao_account.email,
@@ -38,9 +39,9 @@ const AuthProvider = ({ children, localStorage }) => {
     }).then(res => {
         if (res.success) {
             router.push('/account/login')
-            message.success("Welcome! You are now our member! 🎉");
+            message.success(res.message);
         } else {
-            message.error("Already subscribed. 🤔");
+            message.error(res.message);
         }
     })
 
@@ -59,9 +60,9 @@ const AuthProvider = ({ children, localStorage }) => {
     }).then(res => {
         if (res.success) {
             router.push('/account/login')
-            message.success("Welcome! You are now our member! 🎉");
+            message.success(res.message);
         } else {
-            message.error("Already subscribed. 🤔");
+            message.error(res.message);
         }
     })
 
@@ -74,7 +75,7 @@ const AuthProvider = ({ children, localStorage }) => {
     }).then(res => {
         console.log(res, "settingAccount Path")
         return res;
-    }).then(saveUserInfo).then(message.success('Your information has been saved. 📲 '));
+    }).then(saveUserInfo).then(res => message.success(res.message));
 
     const uploadReview = (data) => {
         console.log(data, "in uploadReview");
@@ -87,7 +88,7 @@ const AuthProvider = ({ children, localStorage }) => {
             'product': data.product,
             'keyId': data.keyId
         }).then(res => {
-            res.reviewSave ? message.success(res.message) : alert(res.message);
+            res.reviewSave ? message.success(res.message) : consolo.log(res.message);
         }).catch(err => alert(err));
     }
 

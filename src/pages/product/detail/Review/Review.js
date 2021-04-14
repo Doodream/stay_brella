@@ -31,7 +31,8 @@ export default function Review({ id }) {
             console.log(res, "GetReviews");
             setReviews(res.sort((a, b) => b.keyId - a.keyId));
         }).catch(err => {
-            message.error(err);
+            message.error(res.message);
+            console.log(err);
         })
     }
 

@@ -62,6 +62,7 @@ export default function SettingAccount() {
                     filePath: `${baseUrl}/img/${res.fileName}`
                 }
             )
+            message.success(res.message);
         }).catch(err => {
             console.error(err);
         })
