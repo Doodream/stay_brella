@@ -49,7 +49,7 @@ const Content = () => {
 }
 
 function Detail({ router }) {
-    const [data, setData] = React.useState(JSON.parse(router.query.data));
+    const [data, setData] = React.useState(JSON.parse(router.query.data || null));
     React.useEffect(() => {
         console.log(data, "detail page");
     }, [])
