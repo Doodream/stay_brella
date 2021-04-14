@@ -84,7 +84,8 @@ const AuthProvider = ({ children, localStorage }) => {
             'date': data.date,
             'rating': data.rating,
             'comment': data.comment,
-            'productId': data.productId
+            'product': data.product,
+            'keyId': data.keyId
         }).then(res => {
             res.reviewSave ? message.success(res.message) : alert(res.message);
         }).catch(err => alert(err));

@@ -42,7 +42,7 @@ export default function ReviewComment({ userName, userImage, date, rating, comme
 const Container = styled.div`
     width: 100%;
     display: flex;
-    margin-bottom: 10;
+    margin-bottom: 1.5rem;
     box-shadow: 0 0 15px 0 rgb(2 59 109 / 20%);
     padding: 1rem; 
 
@@ -86,8 +86,6 @@ const RatingBox = styled.div`
 
 const CommentBox = styled.div`
     margin: 1rem 0;
-    
-
 `
 
 ReviewComment.propTypes = {

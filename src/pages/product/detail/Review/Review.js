@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 
 const { TextArea } = Input;
 export default function Review({ id }) {
-    const productId = id;
+    const product = id;
     const { register, handleSubmit, reset } = useForm();
     const [rating, setRating] = useState(0);
     const [isHiddenQA, setIsHiddenQA] = useState(false);
@@ -26,7 +26,7 @@ export default function Review({ id }) {
 
     const getReviews = () => {
         return Fetch.post('/api/download/reviews', {
-            productId: productId
+            product: product
         }).then(res => {
             console.log(res, "GetReviews");
             setReviews(res);
@@ -56,12 +56,13 @@ export default function Review({ id }) {
             date: date(),
             rating: rating,
             comment: comment,
-            productId: productId
+            product: product,
+            keyId: Date.now(),         //key값은 시간으로 주고 유니크로 받자
         }
 
         console.log(newReview, "in addReview");
         uploadReview(newReview);
-        //getReviews();
+        getReviews();
         setComment("");
         setRating(0);
     }
@@ -79,37 +80,37 @@ export default function Review({ id }) {
             <ReviewCount> {reviews.length} Review</ReviewCount>
             <div style={{ margin: '1rem 0' }}>
                 {
-                    reviews.length !== 0 ??
-                        isHiddenReview ? reviews.reverse().map((review, index) => {
-                            return (
-                                <ReviewComment
-                                    key={index}
-                                    userName={review.name}
-                                    userImage={review.image}
-                                    date={review.date}
-                                    rating={review.rating}
-                                    comment={review.comment}
-                                />
-                            )
-                        }) : reviews.slice(reviews.length - 3, reviews.length).reverse().map((review, index) => {
-                            return (
-                                <ReviewComment
-                                    key={index}
-                                    userName={review.name}
-                                    userImage={review.image}
-                                    date={review.date}
-                                    rating={review.rating}
-                                    comment={review.comment}
-                                />
-                            )
-                        })
+                    // reviews.length !== 0 ??
+                    isHiddenReview ? reviews.reverse().map((review, index) => {
+                        return (
+                            <ReviewComment
+                                key={index}
+                                userName={review.name}
+                                userImage={review.image}
+                                date={review.date}
+                                rating={review.rating}
+                                comment={review.comment}
+                            />
+                        )
+                    }) : reviews.slice(reviews.length - 3, reviews.length).reverse().map((review, index) => {
+                        return (
+                            <ReviewComment
+                                key={index}
+                                userName={review.name}
+                                userImage={review.image}
+                                date={review.date}
+                                rating={review.rating}
+                                comment={review.comment}
+                            />
+                        )
+                    })
                 }{
                     isHiddenReview ?
                         <ViewMoreBox>
-                            <button onClick={() => setIsHiddenReview(false)}><CaretDownOutlined />View more</button>
+                            <button onClick={() => setIsHiddenReview(false)}><CaretUpOutlined />View Reduce</button>
                         </ViewMoreBox> :
                         <ViewMoreBox>
-                            <button onClick={() => setIsHiddenReview(true)}><CaretUpOutlined />View Reduce</button>
+                            <button onClick={() => setIsHiddenReview(true)}><CaretDownOutlined />View more</button>
                         </ViewMoreBox>
                 }
             </div>
