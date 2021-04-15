@@ -48,6 +48,7 @@ export default function Signup({ history }) {
     const [emailEntered, setEmailEntered] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [passwordEntered, setPasswordEntered] = useState('');
+    const [passwordReEntered, setPasswordReEntered] = useState('');
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const [isReEnterPasswordValid, setIsReEnterPasswordValid] = useState(false);
 
@@ -71,6 +72,7 @@ export default function Signup({ history }) {
         // 특수문자 / 문자 / 숫자포함 8 ~ 15자리
         const passwordRegex = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
         setValue("password", passwordEntered);
+        setPasswordEntered(passwordEntered);
         passwordEntered.match(passwordRegex) ? setIsPasswordValid(true) : setIsPasswordValid(false);
     }
 
