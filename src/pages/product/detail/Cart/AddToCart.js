@@ -8,7 +8,7 @@ import { UpOutlined, DownOutlined, DeleteOutlined } from '@ant-design/icons';
 export default function AddToCart({ image, title, price, quantity, removeToCart, setCart, cart, id }) {
     const [count, setCount] = React.useState(quantity);
     //const cart = typeof window === "undefined" ? [] : JSON.parse(window.localStorage.getItem('cart'));
-    const index = cart.findIndex(item => item.id === id);
+    const index = cart !== null ? cart.findIndex(item => item.id === id) : null;
 
     React.useEffect(() => {
         setCount(quantity);
