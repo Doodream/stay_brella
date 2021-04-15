@@ -13,7 +13,6 @@ export default function Cart({ data }) {
     const [totalPrice, setTotalPrice] = useState(0);
     const [product, setProduct] = useState(data);
     const [cart, setCart] = useState(typeof window !== "undefined" ? JSON.parse(window.localStorage.getItem('cart')) : null);
-
     const removeToCart = (id) => {
         var index = cart.findIndex(item => item.id === id);
         setProduct(data);
@@ -22,21 +21,22 @@ export default function Cart({ data }) {
             window.localStorage.removeItem('cart');
             return
         }
-        var newCart = cart;
+        var newCart = JSON.parse(JSON.stringify(cart));
         newCart.splice(index, 1)
         setCart(newCart);
     }
 
     const addToCart = () => {
-        var newCart = cart;
-        var newProduct = product;
+        var newCart = JSON.parse(JSON.stringify(cart));
+        var newProduct = { ...product };
         newProduct.quantity += 1;
         // useState에서 setter 함수는 비동기 처리가 되며 렌더링을 유발 시킬때 해당값을 반영할 수 있다. 
         // 함수 진행동안에는 리 랜더링이 안되기 때문에 newProduct, newCart 생성
+        // 객체 불변성
         setProduct(newProduct);
 
         // 카트가 비었는지 비어있지 않은지 
-        if (cart !== null || cart.length !== 0) {
+        if (cart !== null) {
             //카트가 비어있지 않다면 product가 있는지 없는지
             const itemIndex = cart.findIndex(item => item.id === product.id);
             if (itemIndex === -1) {
@@ -53,11 +53,11 @@ export default function Cart({ data }) {
     }
 
     const reduceToCart = () => {
-        var newCart = cart;
-        var newProduct = product
+        var newCart = JSON.parse(JSON.stringify(cart));
+        var newProduct = { ...product }
         newProduct.quantity -= 1;
         // 카트가 비었는지 비어있지 않은지 
-        if (cart !== null || cart.length !== 0) {
+        if (cart !== null) {
             //카트가 비어있지 않다면 product가 있는지 없는지
             const itemIndex = cart.findIndex(item => item.id === product.id);
             if (itemIndex !== -1 && product.quantity > 0) {
@@ -91,25 +91,30 @@ export default function Cart({ data }) {
             <Section>
                 <CartBox>
                     {
-                        (cart === null || cart.length !== 0) ?
+                        cart === null ?
                             <EmptyCart>
                                 <ShoppingCartOutlined />
                                 <span > Cart is empty.</span>
                             </EmptyCart>
                             :
-                            cart.map((product, index) => {
-                                return <AddToCart
-                                    addToCart={addToCart}
-                                    reduceToCart={reduceToCart}
-                                    removeToCart={removeToCart}
-                                    id={product.id}
-                                    price={product.price}
-                                    quantity={product.quantity}
-                                    title={product.title}
-                                    imagePath={product.imagePath}
-                                    key={index}
-                                />
-                            })
+                            cart.length !== 0 ?
+                                cart.map((product, index) => {
+                                    return <AddToCart
+                                        addToCart={addToCart}
+                                        reduceToCart={reduceToCart}
+                                        removeToCart={removeToCart}
+                                        id={product.id}
+                                        price={product.price}
+                                        quantity={product.quantity}
+                                        title={product.title}
+                                        imagePath={product.imagePath}
+                                        key={index}
+                                    />
+                                }) :
+                                <EmptyCart >
+                                    <ShoppingCartOutlined />
+                                    <span > Cart is empty.</span>
+                                </EmptyCart>
                     }
                 </CartBox>
                 <Divider style={{ margin: '0px' }} />
