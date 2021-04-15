@@ -1,9 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-
 import { Button } from 'antd';
 
 export default function Banner() {
@@ -19,7 +17,9 @@ export default function Banner() {
             </BannerTitle>
             <Link href='/product'>
                 <a>
-                    <BannerButton><p>Choose your Brella</p></BannerButton>
+                    <BannerButton>
+                        Choose your Brella
+                    </BannerButton>
                 </a>
             </Link>
         </Container>
@@ -41,7 +41,6 @@ const BannerImage = styled.div`
         //border-radius: 5px;
     }
 `
-
 const BannerTitle = styled.div`
     position: absolute;
     top: 23%;
@@ -60,9 +59,7 @@ const BannerTitle = styled.div`
         font-weight: 800;
     }
 `
-
 const BannerButton = styled(Button)`
-    
     position: absolute;
     bottom: 10%;
     left: 50%;
@@ -71,8 +68,6 @@ const BannerButton = styled(Button)`
     border: none;
     color: white;
     background: #E84D3C;
-    >p{
-        font-weight: 800;
-        font-size: 20px;
-    }
+    font-weight: 800;
+    font-size: 20px;
 `

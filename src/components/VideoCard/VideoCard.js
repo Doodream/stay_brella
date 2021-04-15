@@ -1,25 +1,14 @@
 import React, { useState } from 'react';
-import { unmountComponentAtNode } from 'react-dom'
-import Link from 'next/link';
 import 'antd/dist/antd.css';
-
-import { Button, Menu, Dropdown } from 'antd';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 export default function VideoCard({ thumbnail, videoId }) {
-    const modal = React.useRef(null);
-    const handleOpen = () => {
-        modal.current.style.display = "flex";
-    }
-    const handleClose = () => {
-        modal.current.style.display = "none";
-    }
-
+    const handleOpen = () => modal.current.style.display = "flex";
+    const handleClose = () => modal.current.style.display = "none";
 
     return (
         <div>
-            <Modal ref={modal} onClick={handleClose}>
+            <Modal onClick={handleClose}>
                 {/* //<!-- Modal content --> */}
                 <div className="modal-content" onClick={(e) => e.preventDefault()}>
                     <iframe id='iframe-video' width="1000" height="600" src={`https://www.youtube.com/embed/${videoId}`} frameBorder="0" autoPlay={1} allow="accelerometer; ; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true}></iframe>
