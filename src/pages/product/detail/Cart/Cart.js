@@ -4,21 +4,19 @@ import 'antd/dist/antd.css';
 import styled from 'styled-components';
 import { Button, Divider, message } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
-import AuthContext from 'contexts/Auth/AuthContext';
 import AddToCart from '../Cart/AddToCart';
+import AuthContext from 'contexts/Auth/AuthContext';
 
 
 export default function Cart({ data }) {
-    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalPrice, setTotalPrice] = useState();
     const [product, setProduct] = useState(data);
     const [cart, setCart] = useState(typeof window !== "undefined" ? JSON.parse(window.localStorage.getItem('cart')) : null);
     const [isAuthenticated] = useContext(AuthContext);
 
-    const removeToCart = (id) => {
-        var index = cart.findIndex(item => item.id === id);
-        setProduct(data);
-        if (cart.length <= 1) {
-            setCart(null);
+    const removeToCart = (index) => {
+        if (cart.length === 1) {
+            setCart([]);
             window.localStorage.removeItem('cart');
             return
         }
@@ -53,29 +51,11 @@ export default function Cart({ data }) {
         }
     }
 
-    const reduceToCart = () => {
-        var newCart = JSON.parse(JSON.stringify(cart));
-        var newProduct = { ...product }
-        newProduct.quantity -= 1;
-        // 카트가 비었는지 비어있지 않은지 
-        if (cart !== null) {
-            //카트가 비어있지 않다면 product가 있는지 없는지
-            const itemIndex = cart.findIndex(item => item.id === product.id);
-            if (itemIndex !== -1 && product.quantity > 0) {
-                setProduct(newProduct);
-                newCart[itemIndex] = newProduct;
-                setCart(newCart);
-            }
-        }
-    }
-
     const getTotalPrice = () => {
         var count = 0;
-        if (cart !== null) {
-            cart.map(product => {
-                count += product.quantity * product.price
-            })
-        }
+        cart !== null && cart.map(product => {
+            count += product.quantity * product.price
+        })
         setTotalPrice(count);
     }
 
@@ -100,15 +80,15 @@ export default function Cart({ data }) {
                             cart.length !== 0 ?
                                 cart.map((product, index) => {
                                     return <AddToCart
-                                        addToCart={addToCart}
-                                        reduceToCart={reduceToCart}
-                                        removeToCart={removeToCart}
-                                        id={product.id}
+                                        setCart={setCart}
+                                        key={index}
+                                        image={product.imagePath}
+                                        title={product.title}
                                         price={product.price}
                                         quantity={product.quantity}
-                                        title={product.title}
-                                        imagePath={product.imagePath}
-                                        key={index}
+                                        removeToCart={removeToCart}
+                                        cart={cart}
+                                        id={product.id}
                                     />
                                 }) :
                                 <EmptyCart >
@@ -120,11 +100,11 @@ export default function Cart({ data }) {
                 <Divider style={{ margin: '0px' }} />
                 <PaymentBox>
                     <TotalPriceBox>
-                        <p>{totalPrice}원</p>
+                        <p>{cart === null ? 0 : totalPrice}원</p>
                     </TotalPriceBox>
-                    <CartButton onClick={(e) => addToCart()}>Add to Cart</CartButton>
+                    <CartButton onClick={addToCart}>Add to Cart</CartButton>
                     <CartButton style={{ margin: '20px 0' }}
-                        onClick={(e) => {
+                        onClick={() => {
                             isAuthenticated ? message.loading("Waiting for payment window 💸", 2) : message.warning("Please Log in 🙏")
                         }}>
                         Payment
