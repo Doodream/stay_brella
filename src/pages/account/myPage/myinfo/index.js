@@ -1,17 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-
+import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { Button, message, Space, Divider, Input, Form, Checkbox, Select } from 'antd';
+import { message, Input, Form, Select } from 'antd';
 import { useForm } from "react-hook-form";
-import AuthContext from '../../../../contexts/Auth/AuthContext';
-import { Fetch } from "../../../../utils/Fetch";
-import { MessageOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import AuthContext from 'contexts/Auth/AuthContext';
+import Layout from 'components/Layout/Layout';
+import Container from 'components/Container/Container';
+import { StyleLabel, StyleButton } from 'components/atoms/StyleAtoms/StyleAtoms';
 
-import Layout from '../../../../components/Layout/Layout';
-import Container from '../../../../components/Container/Container';
-import { useRouter } from 'next/router';
 
 const tailLayout = {
     wrapperCol: {
@@ -21,10 +17,8 @@ const tailLayout = {
 };
 
 const { Option } = Select;
-
 export default function SettingAccount() {
-    const router = useRouter();
-    const [baseUrl, setBaseUrl] = useState(process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://staybrella.com');
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://staybrella.com';
     const [user, setUser] = useState(typeof window !== "undefined" ? JSON.parse(window.localStorage.getItem('user')) : []);
     const [gender, setGender] = useState(user.gender || '');
     const [name, setName] = useState(user.name);
@@ -35,10 +29,10 @@ export default function SettingAccount() {
             filePath: user.image
         }
     )
-    const [userImage, setUserImage] = useState(null);
 
-    const { initAuthUser, settingAccount } = React.useContext(AuthContext);
-    const { handleSubmit, register, reset, setValue } = useForm({ reValidateMode: 'onBlur' });
+    const [userImage, setUserImage] = useState(null);
+    const { settingAccount, uploadImage } = React.useContext(AuthContext);
+    const { handleSubmit, register } = useForm({ reValidateMode: 'onBlur' });
 
     const imageUpload = (e) => {
         if (e.target.files[0] !== undefined) {
@@ -46,7 +40,7 @@ export default function SettingAccount() {
             message.success("Click the 'Change your avatar' 📸");
         }
     }
-    const imageUploadServer = (data) => {
+    const imageUploadServer = () => {
         if (userImage === null) {
             message.warning("Please upload an image");
             return
@@ -54,8 +48,7 @@ export default function SettingAccount() {
         const formData = new FormData();
         formData.append("image", userImage);
 
-
-        Fetch.post('/api/upload/image', formData).then((res) => {
+        uploadImage(formData).then(res => {
             setUserUploadedImage(
                 {
                     fileName: res.fileName,
@@ -65,35 +58,31 @@ export default function SettingAccount() {
             message.success(res.message);
         }).catch(err => {
             console.error(err);
-        })
+        });
     }
 
+    // 초기 렌더링시 useEffect 발생을 막을 방법은 없을까?
     useEffect(() => {
+        if (userUploadedImage.fileName === "") return
         settingAccount({
             ...user,
             image: userUploadedImage.filePath
-        }).then(res => {
-            initAuthUser({
-                ...user,
-                image: userUploadedImage.filePath
-            })
         })
     }, [userUploadedImage])
 
-    const accountInfoUpload = (data) => {
+    const accountInfoUpload = () => {
         if (name === "" || gender === "" || nationality === "") {
             message.error("회원 정보를 모두 입력해주세요");
             return;
         }
-        var newUserInfo = {
+        const newUserInfo = {
             ...user,
             name: name,
             gender: gender,
             nationality: nationality,
             image: userUploadedImage.filePath,
         }
-        settingAccount(newUserInfo).then(initAuthUser(newUserInfo));
-        window.localStorage.setItem('user', JSON.stringify(newUserInfo));
+        settingAccount(newUserInfo);
     }
 
     return (
@@ -101,7 +90,9 @@ export default function SettingAccount() {
             <Container title={"Members Registration"}>
                 <ContainerBox>
                     <ImageForm onSubmit={handleSubmit(imageUploadServer)}>
-                        <label htmlFor='img_file'><img src={userUploadedImage.filePath ? userUploadedImage.filePath : user.image} alt="계정 이미지"></img></label>
+                        <StyleLabel htmlFor='img_file'>
+                            <img src={userUploadedImage.filePath || user.image} alt="계정 이미지" />
+                        </StyleLabel>
                         <input
                             id='img_file'
                             {...register("image")}
@@ -111,8 +102,9 @@ export default function SettingAccount() {
                             accept="image/png, image/jpeg"
                         >
                         </input>
-                        <Button
-                            htmlType='submit'>Change your avatar</Button>
+                        <StyleButton htmlType='submit'>
+                            Change your avatar
+                        </StyleButton>
                     </ImageForm>
                     <Section>
                         <Inner>
@@ -120,24 +112,24 @@ export default function SettingAccount() {
                                 name="basic"
                                 onFinish={handleSubmit(accountInfoUpload)}>
                                 <Form.Item>
-                                    <label htmlFor='name' style={{ fontSize: 20 }}>Your Name</label>
+                                    <StyleLabel htmlFor='name'>Your Name</StyleLabel>
                                     <Input
                                         {...register("name")}
                                         name="name"
                                         autoComplete='name'
                                         defaultValue={name}
-                                        onChange={(e) => { setValue('name', e.target.value), setName(e.target.value) }}
+                                        onChange={(e) => { setName(e.target.value) }}
                                         allowClear />
                                 </Form.Item>
                                 <Form.Item>
-                                    <label htmlFor='email' style={{ fontSize: 20 }}>Your Email</label>
+                                    <StyleLabel htmlFor='email'>Your Email</StyleLabel>
                                     <Input
                                         name="email"
                                         disabled
                                         defaultValue={user.email} />
                                 </Form.Item>
                                 <Form.Item>
-                                    <label htmlFor='gender' style={{ fontSize: 20 }}>Your Gender</label>
+                                    <StyleLabel htmlFor='gender'>Your Gender</StyleLabel>
                                     <Select
                                         name="gender"
                                         defaultValue={gender === '' ? "" : gender}
@@ -150,7 +142,7 @@ export default function SettingAccount() {
                                     </Select>
                                 </Form.Item>
                                 <Form.Item>
-                                    <label htmlFor='nationality' style={{ fontSize: 20 }}>Your Nationality</label>
+                                    <StyleLabel htmlFor='nationality' style={{ fontSize: 20 }}>Your Nationality</StyleLabel>
                                     <Select
                                         name="nationality"
                                         defaultValue={nationality === '' ? "" : nationality}
@@ -166,9 +158,9 @@ export default function SettingAccount() {
                                     </Select>
                                 </Form.Item>
                                 <Form.Item {...tailLayout} style={{ backgroud: 'white' }}>
-                                    <Button htmlType="submit" style={{ background: '#34495e', color: 'white' }}>
+                                    <StyleButton htmlType="submit">
                                         Upload Info
-                                </Button>
+                                    </StyleButton>
                                 </Form.Item>
                             </Form>
                         </Inner>
@@ -199,24 +191,6 @@ const Inner = styled.div`
     flex-direction: column;
     width: 80%;
     padding: 40px 0;
-`
-const LoginSignup = styled.div`
-    margin: 0px 0px 0px 0px;
-    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    // & button 으로 하면 css 몇개 안먹음
-    > a{
-        > button {
-        width: 100px;
-        background: #34495e;
-        color: white;
-    }
-    text-align: center;
-    text-decoration: none;
-    }
 `
 const ImageForm = styled.form`
     display: flex;
