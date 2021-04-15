@@ -88,7 +88,7 @@ export default function Cart({ data }) {
                                         quantity={product.quantity}
                                         removeToCart={removeToCart}
                                         cart={cart}
-                                        id={product.id}
+                                        index={index}
                                     />
                                 }) :
                                 <EmptyCart >
