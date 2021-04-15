@@ -13,6 +13,7 @@ import Cart from '../detail/Cart/Cart';
 import VideoCard from '../../../components/VideoCard/VideoCard';
 import Review from '../detail/Review/Review';
 
+// 단순 내용입니다. 
 const Content = () => {
     return (
         <div style={{ margin: '0 1rem' }}>
@@ -20,17 +21,15 @@ const Content = () => {
                 <span>Item #20125656</span>
             </div>
             <div>
-            </div>
-            <div>
                 From business &amp; pleasure, this umbrella features:
-        <br />
+            <br />
                 <ul>
                     <li>Marine Grade&nbsp; - Hand polished aluminum fittings</li>
                     <li>Premium Canvas - UV and water resistant canvas cotton bullion fringe</li>
                     <li>Reclaimed Timber - Eco friendly, world forestripes approved laminated timber poles</li>
                 </ul>
-        Dimensions:
-        <br />
+            Dimensions:
+            <br />
                 <ul>
                     <li>In Use = approx. 7.5” H x 6’ W&nbsp;</li>
                     <li>In Carry Bag = approx. 48” L x 4” W x 4” D</li>
@@ -38,10 +37,10 @@ const Content = () => {
                     <li>Set up time less than 1 minute</li>
                 </ul>
             Imported.
-            <br />
+                <br />
                 <br />
             An oversize shipping charge of $10.00 will be applied to your total for each umbrella ordered. Expedited shipping is not available. We are unable to ship this item to P.O. boxes, military facilities or outside the continental United States.
-    </div>
+        </div>
             <div>
                 <span>DMS: 0715 090 BPU-P</span>
             </div>
@@ -69,6 +68,7 @@ function Detail({ router }) {
                         <ProductMain>
                             <ProductImage><img src={data.imagePath} alt="상품이미지"></img></ProductImage>
                             <Divider style={{ margin: '0' }} />
+                            <Button></Button>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <ProductTitle>{data.title}</ProductTitle>
                                 <ProductPrice>{data.price}원</ProductPrice>

@@ -1,23 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Link from 'next/link';
-
+import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { Button, Divider, message, Input, Rate } from 'antd';
+import { Button, message, Input, Rate } from 'antd';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
-import { useRouter, withRouter } from 'next/router';
-import AddToCart from '../Cart/AddToCart';
-import { Fetch } from '../../../../utils/Fetch';
-import AuthContext from '../../../../contexts/Auth/AuthContext';
-import ReviewComment from '../Review/ReviewComment';
+import { Fetch } from 'utils/Fetch';
+import AuthContext from 'contexts/Auth/AuthContext';
+import ReviewComment from 'pages/product/detail/Review/ReviewComment';
 import { useForm } from 'react-hook-form';
 
 const { TextArea } = Input;
+
 export default function Review({ id }) {
     const product = id;
-    const { register, handleSubmit, reset } = useForm();
+    const { handleSubmit } = useForm();
     const [rating, setRating] = useState(0);
-    const [isHiddenQA, setIsHiddenQA] = useState(false);
     const [isHiddenReview, setIsHiddenReview] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [user, setUser] = useState(typeof window !== "undefined" ? JSON.parse(window.localStorage.getItem('user')) : null);
@@ -45,12 +41,10 @@ export default function Review({ id }) {
     }
 
     const addReview = data => {
-        //userName, userImage를 context에서 
         if (!isAuthenticated) {
             message.error("Please Log in 🙏");
             return
         }
-        // user 정보를 상위 컴포넌트에서 가져오자 에러 나면
         var newReview = {
             userName: user.name,
             userImage: user.image,
@@ -71,10 +65,6 @@ export default function Review({ id }) {
     useEffect(() => {
         getReviews();
     }, [])
-
-    useEffect(() => {
-        console.log(rating, "Chnage rating");
-    }, [rating])
 
     return (
         <div>
@@ -104,15 +94,18 @@ export default function Review({ id }) {
                             />
                         )
                     })
-                }{
-                    isHiddenReview ?
-                        <ViewMoreBox>
-                            <button onClick={() => setIsHiddenReview(false)}><CaretUpOutlined />View Reduce</button>
-                        </ViewMoreBox> :
-                        <ViewMoreBox>
-                            <button onClick={() => setIsHiddenReview(true)}><CaretDownOutlined />View more</button>
-                        </ViewMoreBox>
                 }
+                <ViewMoreBox>
+                    {
+                        isHiddenReview ?
+                            <button onClick={() => setIsHiddenReview(false)}>
+                                <CaretUpOutlined />View Reduce
+                            </button> :
+                            <button onClick={() => setIsHiddenReview(true)}>
+                                <CaretDownOutlined />View More
+                            </button>
+                    }
+                </ViewMoreBox>
             </div>
             <ReviewForm
                 onSubmit={handleSubmit(addReview)}>
@@ -127,10 +120,9 @@ export default function Review({ id }) {
                     value={comment}
                     placeholder="Thank you for your purchase. Please leave a good review. We will repay you with good quality. 👍"
                 />
-                <SubmitButton
-                    htmlType='submit'
-
-                >Submit</SubmitButton>
+                <SubmitButton htmlType='submit'>
+                    Submit
+                </SubmitButton>
             </ReviewForm>
         </div>
 
