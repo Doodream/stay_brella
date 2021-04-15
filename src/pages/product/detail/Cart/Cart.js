@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Link from 'next/link';
 
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
 import { Button, Divider, message } from 'antd';
-import { ConsoleSqlOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { useRouter, withRouter } from 'next/router';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+import AuthContext from 'contexts/Auth/AuthContext';
 import AddToCart from '../Cart/AddToCart';
 
 
@@ -13,6 +12,8 @@ export default function Cart({ data }) {
     const [totalPrice, setTotalPrice] = useState(0);
     const [product, setProduct] = useState(data);
     const [cart, setCart] = useState(typeof window !== "undefined" ? JSON.parse(window.localStorage.getItem('cart')) : null);
+    const [isAuthenticated] = useContext(AuthContext);
+
     const removeToCart = (id) => {
         var index = cart.findIndex(item => item.id === id);
         setProduct(data);
@@ -79,7 +80,6 @@ export default function Cart({ data }) {
     }
 
     useEffect(() => {
-        if (cart === null) return;
         getTotalPrice();
         window.localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart])
