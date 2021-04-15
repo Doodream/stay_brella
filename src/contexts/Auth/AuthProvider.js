@@ -1,8 +1,7 @@
 import React from "react";
 import { withRouter, useRouter } from "next/router";
-import AuthContext from './AuthContext.js';
-import { Fetch } from '../../utils/Fetch';
-
+import AuthContext from 'contexts/Auth/AuthContext';
+import { Fetch } from 'utils/Fetch';
 import 'antd/dist/antd.css';
 import { message } from 'antd';
 
@@ -31,6 +30,7 @@ const AuthProvider = ({ children, localStorage }) => {
             email: profile.kakao_account.email,
         }).then(saveUserInfo).then(homeRedirect).catch(err => message.error(err.message));
     }
+
     const kakaoSignUp = ({ profile }) => Fetch.post('/api/signUp/', {
         'email': profile.kakao_account.email,
         'name': profile.properties.nickname,
@@ -56,7 +56,7 @@ const AuthProvider = ({ children, localStorage }) => {
         'name': data.name,
         'email': data.email,
         'password': data.password,
-        'image': 'https://tooravel.be/img/imgfile1617785497822.png'
+        'image': 'https://staybrella.com/img/imgfile1618415682649.png'
     }).then(res => {
         if (res.success) {
             router.push('/account/login')
@@ -66,7 +66,7 @@ const AuthProvider = ({ children, localStorage }) => {
         }
     })
 
-    const settingAccount = async ({ email, name, gender, nationality, image }) => await Fetch.post('/api/account/setting', {
+    const settingAccount = ({ email, name, gender, nationality, image }) => Fetch.post('/api/account/setting', {
         'email': email,
         'name': name,
         'gender': gender,
@@ -92,10 +92,9 @@ const AuthProvider = ({ children, localStorage }) => {
         }).catch(err => alert(err));
     }
 
-    const initAuthUser = (data) => {
-        console.log(data, "initAuthUser Path");
-        setPrevAuthUser(data);
-    }
+    const uploadImage = (data) => Fetch.post('/api/upload/image', data)
+
+
     //state초기화 객체 입니다.
     const initialState = {
         saveUserInfo,
@@ -105,8 +104,9 @@ const AuthProvider = ({ children, localStorage }) => {
         signUp,
         kakaoSignUp,
         uploadReview,
+        uploadImage,
         settingAccount,
-        initAuthUser,
+
         authUser: prevAuthUser,
         isAuthenticated: 'token' in prevAuthUser,
     };
@@ -127,16 +127,13 @@ const AuthProvider = ({ children, localStorage }) => {
     }, [prevAuthUser]);
 
     React.useEffect(() => {
-        console.log('value change')
+        console.log(value, 'value change')
         window.localStorage.clear()
         window.localStorage['isAuthenticated'] = 'token' in value.authUser;
         window.localStorage.setItem('user', JSON.stringify(value.authUser));
     }, [value.authUser]);
 
     return (
-        //AuthProvider에 state를 사용할 컴포넌트들을 호출하려면
-        //{children}이 있어야 합니다
-        //그래서 마지막 return에서 {children}을 리턴해줍니다.
         <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
