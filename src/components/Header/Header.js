@@ -1,20 +1,18 @@
 import React from 'react';
 import Link from 'next/link';
 import 'antd/dist/antd.css';
-import AuthContext from '../../contexts/Auth/AuthContext';
-import { Button, Menu, Dropdown } from 'antd';
+import AuthContext from 'contexts/Auth/AuthContext';
+import { Menu, Dropdown } from 'antd';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
-
 import styled from 'styled-components';
+import Logo from "components/Logo/Logo";
 
 export default function Header() {
-
-
-    const { authUser, logout, isAuthenticated, homeRedirect, prevAuthUser } = React.useContext(AuthContext);
-    const [userImage, setUsetImage] = React.useState(authUser.image);
+    const { authUser, logout, isAuthenticated } = React.useContext(AuthContext);
+    const [userImage, setUserImage] = React.useState(authUser.image);
 
     React.useEffect(() => {
-        setUsetImage(authUser.image);
+        setUserImage(authUser.image);
     }, [authUser])
 
     const menu = (
@@ -39,30 +37,30 @@ export default function Header() {
     return (
         <div>
             <Container>
-                <Link href='/'>
-                    <HeaderLogo>
-                        <img src="/layout/staybrella 타이틀로고.png" alt="스테이브렐라 로고"></img>
-                        <h3> StayBrella </h3>
-                    </HeaderLogo>
-                </Link>
+                <Logo />
                 {
                     isAuthenticated ?
                         <HeaderAccount>
-                            <a className="myPage"><h3> Mypage </h3></a>
-
+                            <a className="myPage">
+                                <h3> Mypage </h3>
+                            </a>
                             <MyPageDropdown overlay={menu}
                                 onClick={e => e.preventDefault()}
                                 placement="bottomRight"
                                 arrow>
-                                <img src={userImage} alt="계정 이미지"></img>
+                                <img src={userImage} alt="계정 이미지" />
                             </MyPageDropdown>
                         </HeaderAccount> :
                         <HeaderAccount>
                             <Link href='/account/login'>
-                                <a><h3>Login</h3></a>
+                                <a>
+                                    <h3>Login</h3>
+                                </a>
                             </Link>
                             <Link href='/account/signup'>
-                                <a><h3>Signup</h3></a>
+                                <a>
+                                    <h3>Signup</h3>
+                                </a>
                             </Link>
                         </HeaderAccount>
                 }
@@ -103,24 +101,6 @@ const HeaderAccount = styled.div`
     }
 `;
 
-const HeaderLogo = styled.a`
-    display: flex;
-    text-decoration: none;
-    align-items: center;
-    padding-left: 20px;
-    > img {
-        width: 32.25px;
-        height: 32.25px;
-    };
-    > h3 {
-        margin-top: 0px;
-        margin-bottom: 0px;
-        margin-left: 15px;
-        font-size: 30px;
-        color: #34495e;
-    };
-`;
-
 const MyPageDropdown = styled(Dropdown)`
     width: 40px;
     display: flex;
@@ -131,16 +111,11 @@ const MyPageMenu = styled(Menu)`
         cursor: pointer;
         display: flex;
         flex-direction: column;
-        /* position: fixed;
-        right: 5px;
-        top: 85px; */
-        /* width: 15%; */
         width: 200px;
         background: white;
         border-radius: 10px;
         
 `
-
 const MyPageMenuItem = styled(Menu.Item)`
     > a {
             display: flex;

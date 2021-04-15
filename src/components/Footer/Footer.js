@@ -1,24 +1,16 @@
 import React from 'react';
 import Link from 'next/link'
-
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-
-import { Typography } from 'antd';
 import { FacebookOutlined, InstagramOutlined, CaretRightOutlined } from '@ant-design/icons';
+import Logo from "components/Logo/Logo";
 
 export default function Footer() {
     return (
         <Container>
             <Section>
                 <FooterInfo>
-                    <Link href='/'>
-                        <HeaderLogo>
-                            <img src="/layout/staybrella 타이틀로고.png" alt="스테이브렐라 로고"></img>
-                            <h3> StayBrella </h3>
-                        </HeaderLogo>
-                    </Link>
-
+                    <Logo />
                     <FooterInfoText>StayBrella | 대표 : 노두현 TEL : 010-3553-8916 카카오톡 : rhomo17</FooterInfoText>
                     <FooterInfoText>COPYRIGHT (c) 2021 ALL RIGHT RESERVED StayBrella</FooterInfoText>
                     <FooterSnsList>
@@ -138,21 +130,3 @@ const FooterInfoText = styled.span`
     color: black;
     margin-top: 5px;
 `
-const HeaderLogo = styled.a`
-    padding: 0px;
-    display: flex;
-    text-decoration: none;
-    align-items: center;
-    padding-left: 10px;
-    > img {
-        width: 32.25px;
-        height: 32.25px;
-    };
-    > h3 {
-        margin-top: 0px;
-        margin-bottom: 0px;
-        margin-left: 15px;
-        font-size: 30px;
-        color: #34495e;
-    };
-`;
