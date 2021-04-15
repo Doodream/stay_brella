@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
-import Link from 'next/link';
 
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { Button, Card, Carousel, Pagination } from 'antd';
+import { Pagination } from 'antd';
 
-import { useRouter, withRouter } from 'next/router';
-import Layout from '../../components/Layout/Layout';
-import Container from '../../components/Container/Container';
-import Goods from '../../components/Goods/Goods';
+import Layout from 'components/Layout/Layout';
+import Container from 'components/Container/Container';
+import Goods from 'components/Goods/Goods';
 
 const products = [
     {
@@ -414,7 +412,6 @@ const Section = styled.div`
         }
     }
 `
-
 const InnerBox = styled.div`
     height: calc(100vh - 20);
     width: calc(100vw - 20);

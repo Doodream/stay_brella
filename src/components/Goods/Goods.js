@@ -1,30 +1,24 @@
-import React, { useRef, useState } from 'react';
-import Link from 'next/link';
-
+import React from 'react';
 import 'antd/dist/antd.css';
-import styled from 'styled-components';
-import { Button, message, Space, Divider, Input, Form, Checkbox, Card } from 'antd';
+import ProductCard from 'components/ProductCard/ProductCard';
+import { Card } from 'antd';
 
 const { Meta } = Card;
 
 export default function Goods(props) {
     return (
-        <div>
-            <Link href={{
+        <ProductCard
+            href={{
                 pathname: "/product/detail/[id]",
-                query: { data: JSON.stringify(props) },
+                query: { data: JSON.stringify(props) }
             }}
-                as={`/product/detail/${props.id}`}>
-                <a>
-                    <Card
-                        hoverable
-                        style={{ width: 240, height: 360, margin: '1rem' }}
-                        cover={<img width='240px' height='240px' src={props.imagePath} alt='배경이미지'></img>}>
-                        <Meta title={props.title} description={props.description} />
-                    </Card>
-                </a>
-            </Link>
-        </div>)
+            as={`/product/detail/${props.id}`}
+            style={{ width: 240, height: 360, margin: '1rem' }}
+            cover={<img width='240px' height='240px' src={props.imagePath} alt='배경이미지'></img>}
+        >
+            <Meta title={props.title} description={props.description} />
+        </ProductCard>
+    )
 }
 
 

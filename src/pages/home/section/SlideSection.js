@@ -3,10 +3,8 @@ import Link from 'next/link';
 
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { Button, Card, Carousel } from 'antd';
-
-
-
+import { Carousel } from 'antd';
+import ProductCard from 'components/ProductCard/ProductCard';
 
 const images = [
     '/home/umbrella1.png',
@@ -23,6 +21,16 @@ const images = [
     '/home/umbrella12.png',
 ];
 
+const ImageCard = (props) => {
+    return (
+        <ProductCard
+            href="/product"
+            style={{ width: 240 }}
+            cover={<img width='240px' height='240px' src={images[props.index]} alt='배경이미지'></img>}
+        />
+    )
+}
+
 export default function SlideSection() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -35,39 +43,15 @@ A quality guarantee is enclosed and a refund or exchange is possible.</p>
                 <Carousel autoplay style={{ width: '900px' }}>
                     {
                         images.map((image, index) => {
-                            if (image) {
-                                return (
-                                    <div key={index}>
-                                        <SlideBox>
-                                            <Link href="/product"><a>
-                                                <Card
-                                                    hoverable
-                                                    style={{ width: 240 }}
-                                                    cover={<img width='240px' height='240px' src={images[index]} alt='배경이미지'></img>}
-                                                >
-                                                </Card>
-                                            </a></Link>
-                                            <Link href="/product"><a>
-                                                <Card
-                                                    hoverable
-                                                    style={{ width: 240 }}
-                                                    cover={<img width='240px' height='240px' src={images[(index + 2) % images.length]} alt='배경이미지'></img>}
-                                                >
-                                                </Card>
-                                            </a></Link>
-                                            <Link href="/product"><a>
-                                                <Card
-                                                    hoverable
-                                                    style={{ width: 240 }}
-                                                    cover={<img width='240px' height='240px' src={images[(index + 4) % images.length]} alt='배경이미지'></img>}
-                                                >
-                                                </Card>
-                                            </a></Link>
-
-                                        </SlideBox>
-                                    </div>
-                                )
-                            }
+                            return (
+                                <div key={index}>
+                                    <SlideBox>
+                                        <ImageCard index={index} />
+                                        <ImageCard index={(index + 2) % images.length} />
+                                        <ImageCard index={(index + 4) % images.length} />
+                                    </SlideBox>
+                                </div>
+                            )
                         })
                     }
                 </Carousel>
