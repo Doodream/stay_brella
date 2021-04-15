@@ -1,17 +1,15 @@
 import React from 'react';
-import Link from 'next/link';
 
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { Button, Card, Carousel, Divider } from 'antd';
+import { Button, Divider } from 'antd';
 
-import { useRouter, withRouter } from 'next/router';
-import Layout from '../../../components/Layout/Layout';
-import Container from '../../../components/Container/Container';
-import Goods from '../../../components/Goods/Goods';
-import Cart from '../detail/Cart/Cart';
-import VideoCard from '../../../components/VideoCard/VideoCard';
-import Review from '../detail/Review/Review';
+import { withRouter } from 'next/router';
+import Layout from 'components/Layout/Layout';
+import Container from 'components/Container/Container';
+import Cart from 'pages/product/detail/Cart/Cart';
+import VideoCard from 'components/VideoCard/VideoCard';
+import Review from 'pages/product/detail/Review/Review';
 
 // 단순 내용입니다. 
 const Content = () => {
@@ -56,6 +54,7 @@ function Detail({ router }) {
         id: 0,
         quantity: 0,
     });
+
     React.useEffect(() => {
         console.log(data, "detail page");
     }, [])
@@ -123,15 +122,12 @@ const Video = styled.div`
 `
 const Section = styled.div`
     position: relative;
-    width: 80%;
-    
+    width: 80%;   
 `
-
 const ProductSection = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    
 `
 const ProductMain = styled.div`
     width: 55%;
@@ -158,10 +154,8 @@ const ProductImage = styled.div`
     display: flex;
     justify-content: center;
     >img{
-                            width: 38rem;
+        width: 38rem;
         height: 38rem;
-        
-
     }
 `
 

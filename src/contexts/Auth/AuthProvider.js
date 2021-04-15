@@ -25,7 +25,6 @@ const AuthProvider = ({ children, localStorage }) => {
     }).then(saveUserInfo).then(homeRedirect).catch(err => message.error(err.message));
 
     const kakaoLogin = ({ profile }) => {
-        //console.log(profile);
         Fetch.post('/api/login/kakao/', {
             email: profile.kakao_account.email,
         }).then(saveUserInfo).then(homeRedirect).catch(err => message.error(err.message));
@@ -77,23 +76,7 @@ const AuthProvider = ({ children, localStorage }) => {
         return res;
     }).then(saveUserInfo).then(res => message.success(res.message));
 
-    const uploadReview = (data) => {
-        console.log(data, "in uploadReview");
-        Fetch.post('/api/upload/review', {
-            'name': data.userName,
-            'image': data.userImage,
-            'date': data.date,
-            'rating': data.rating,
-            'comment': data.comment,
-            'product': data.product,
-            'keyId': data.keyId
-        }).then(res => {
-            res.reviewSave ? message.success(res.message) : consolo.log(res.message);
-        }).catch(err => alert(err));
-    }
-
     const uploadImage = (data) => Fetch.post('/api/upload/image', data)
-
 
     //state초기화 객체 입니다.
     const initialState = {
@@ -103,10 +86,8 @@ const AuthProvider = ({ children, localStorage }) => {
         logout,
         signUp,
         kakaoSignUp,
-        uploadReview,
         uploadImage,
         settingAccount,
-
         authUser: prevAuthUser,
         isAuthenticated: 'token' in prevAuthUser,
     };

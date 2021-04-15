@@ -33,7 +33,7 @@ export default function Cart({ data }) {
         newProduct.quantity += 1;
         // useState에서 setter 함수는 비동기 처리가 되며 렌더링을 유발 시킬때 해당값을 반영할 수 있다. 
         // 함수 진행동안에는 리 랜더링이 안되기 때문에 newProduct, newCart 생성
-        // 객체 불변성
+        // 객체 불변성 
         setProduct(newProduct);
 
         // 카트가 비었는지 비어있지 않은지 

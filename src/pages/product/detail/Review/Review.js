@@ -18,13 +18,12 @@ export default function Review({ id }) {
     const [reviews, setReviews] = useState([]);
     const [user, setUser] = useState(typeof window !== "undefined" ? JSON.parse(window.localStorage.getItem('user')) : null);
     const [comment, setComment] = useState("");
-    const { isAuthenticated, authUser, uploadReview } = React.useContext(AuthContext);
+    const { isAuthenticated } = React.useContext(AuthContext);
 
     const getReviews = () => {
         return Fetch.post('/api/download/reviews', {
             product: product
         }).then(res => {
-            console.log(res, "GetReviews");
             setReviews(res.sort((a, b) => b.keyId - a.keyId));
         }).catch(err => {
             message.error(res.message);
@@ -45,19 +44,21 @@ export default function Review({ id }) {
             message.error("Please Log in 🙏");
             return
         }
-        var newReview = {
-            userName: user.name,
-            userImage: user.image,
-            date: date(),
-            rating: rating,
-            comment: comment,
-            product: product,
-            keyId: Date.now(),         //key값은 시간으로 주고 유니크로 받자
-        }
 
-        console.log(newReview, "in addReview");
-        uploadReview(newReview);
-        getReviews();
+        Fetch.post('/api/upload/review', {
+            'name': user.name,
+            'image': user.image,
+            'date': date(),
+            'rating': rating,
+            'comment': comment,
+            'product': product,
+            'keyId': Date.now()          //key값은 시간으로 주고 유니크로 받자
+        }).then(res => {
+            res.reviewSave ? message.success(res.message) : consolo.log(res.message);
+            return res;
+        }).then((res) => {
+            getReviews()
+        }).catch(err => alert(err));
         setComment("");
         setRating(0);
     }

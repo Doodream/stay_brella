@@ -18,6 +18,31 @@ const tailLayout = {
     },
 };
 
+const styleKakaoLogin = {
+    marginLeft: '20px',
+    cursor: 'pointer',
+    textTransform: 'none',
+    width: '70px',
+    height: '32px',
+    padding: '4px 15px',
+    border: '1px solid transparent',
+    color: 'rgba(0, 0, 0, 0.85)',
+    touchAction: 'manipulation',
+    boxShadow: '0 2px 0 rgb(0 0 0 / 2%)',
+    transition: 'all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)',
+    fontSize: '14px',
+    textAlign: 'center',
+    background: '#FEE100',
+    marginBottom: '20px',
+    fontWeight: '400',
+    borderRadius: '2px',
+    '& svg': {
+        width: '1em',
+        height: '1em',
+        marginRight: 5
+    },
+}
+
 export default function Signup({ history }) {
 
     const [emailEntered, setEmailEntered] = useState('');
@@ -28,31 +53,6 @@ export default function Signup({ history }) {
 
     const { signUp, kakaoSignUp, isAuthenticated } = React.useContext(AuthContext);
     const { handleSubmit, register, setValue } = useForm({ reValidateMode: 'onBlur' });
-
-    const styleKakaoLogin = {
-        marginLeft: '20px',
-        cursor: 'pointer',
-        textTransform: 'none',
-        width: '70px',
-        height: '32px',
-        padding: '4px 15px',
-        border: '1px solid transparent',
-        color: 'rgba(0, 0, 0, 0.85)',
-        touchAction: 'manipulation',
-        boxShadow: '0 2px 0 rgb(0 0 0 / 2%)',
-        transition: 'all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)',
-        fontSize: '14px',
-        textAlign: 'center',
-        background: '#FEE100',
-        marginBottom: '20px',
-        fontWeight: '400',
-        borderRadius: '2px',
-        '& svg': {
-            width: '1em',
-            height: '1em',
-            marginRight: 5
-        },
-    }
 
     React.useEffect(() => {
         if (isAuthenticated) {

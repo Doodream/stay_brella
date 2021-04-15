@@ -1,9 +1,8 @@
-import React, { Children, useRef, useState } from 'react';
-import Link from 'next/link';
+import React from 'react';
 
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { Button, message, Space, Divider, Input, Form, Checkbox } from 'antd';
+import { Divider } from 'antd';
 
 export default function Container({ title, children }) {
 

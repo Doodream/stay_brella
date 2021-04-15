@@ -1,18 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Link from 'next/link';
-
+import React from 'react';
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { Button, Divider, message, Rate } from 'antd';
-import { ShoppingCartOutlined } from '@ant-design/icons';
-import { useRouter, withRouter } from 'next/router';
-import AddToCart from '../Cart/AddToCart';
-import { Fetch } from '../../../../utils/Fetch';
-import AuthContext from '../../../../contexts/Auth/AuthContext';
-import { useForm } from 'react-hook-form';
+import { Rate } from 'antd';
 import PropTypes from 'prop-types';
-
-
 
 export default function ReviewComment({ userName, userImage, date, rating, comment }) {
 
@@ -45,7 +35,6 @@ const Container = styled.div`
     margin-bottom: 1.5rem;
     box-shadow: 0 0 15px 0 rgb(2 59 109 / 20%);
     padding: 1rem; 
-
 `
 
 const Section = styled.div`
@@ -89,10 +78,9 @@ const CommentBox = styled.div`
 `
 
 ReviewComment.propTypes = {
-    id: PropTypes.number.isRequired,
     userName: PropTypes.string.isRequired,
     userImage: PropTypes.string.isRequired,
-    data: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
     comment: PropTypes.string.isRequired,
 }

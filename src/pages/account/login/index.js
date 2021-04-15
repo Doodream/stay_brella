@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { Button, message, Divider, Input, Form } from 'antd';
+import { message, Divider, Input, Form } from 'antd';
 import { useForm } from "react-hook-form";
 import AuthContext from 'contexts/Auth/AuthContext';
 import KaKaoLogin from 'react-kakao-login';
@@ -17,6 +17,31 @@ const tailLayout = {
     },
 };
 
+const styleKakaoLogin = {
+    marginLeft: '20px',
+    cursor: 'pointer',
+    textTransform: 'none',
+    width: '70px',
+    height: '32px',
+    padding: '4px 15px',
+    border: '1px solid transparent',
+    color: 'rgba(0, 0, 0, 0.85)',
+    touchAction: 'manipulation',
+    boxShadow: '0 2px 0 rgb(0 0 0 / 2%)',
+    transition: 'all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)',
+    fontSize: '14px',
+    textAlign: 'center',
+    background: '#FEE100',
+    marginBottom: '20px',
+    fontWeight: '400',
+    borderRadius: '2px',
+    '& svg': {
+        width: '1em',
+        height: '1em',
+        marginRight: 5
+    },
+}
+
 export default function Login() {
     const [emailEntered, setEmailEntered] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(false);
@@ -24,31 +49,6 @@ export default function Login() {
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const { login, kakaoLogin } = React.useContext(AuthContext);
     const { handleSubmit, register, setValue } = useForm({ reValidateMode: 'onBlur' });
-
-    const styleKakaoLogin = {
-        marginLeft: '20px',
-        cursor: 'pointer',
-        textTransform: 'none',
-        width: '70px',
-        height: '32px',
-        padding: '4px 15px',
-        border: '1px solid transparent',
-        color: 'rgba(0, 0, 0, 0.85)',
-        touchAction: 'manipulation',
-        boxShadow: '0 2px 0 rgb(0 0 0 / 2%)',
-        transition: 'all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)',
-        fontSize: '14px',
-        textAlign: 'center',
-        background: '#FEE100',
-        marginBottom: '20px',
-        fontWeight: '400',
-        borderRadius: '2px',
-        '& svg': {
-            width: '1em',
-            height: '1em',
-            marginRight: 5
-        },
-    }
 
     const onSubmit = data => isEmailValid && isPasswordValid && login(data);
     const validateEmail = (emailEntered) => {
