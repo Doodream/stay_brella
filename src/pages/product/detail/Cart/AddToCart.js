@@ -3,59 +3,30 @@ import PropTypes from 'prop-types';
 
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
-import { Button, message } from 'antd';
 import { UpOutlined, DownOutlined, DeleteOutlined } from '@ant-design/icons';
 
-export default function AddToCart({ image, title, price, quantity, removeToCart, setCart }) {
-    const [count, setCount] = React.useState(quantity);
-    var newCart = typeof window === "undefined" ? [] : JSON.parse(window.localStorage.getItem('cart'));
-    var index = newCart.findIndex(item => item.title === title);
-
-    React.useEffect(() => {
-        setCount(quantity);
-    }, [quantity])
-
-    const addProduct = () => {
-        newCart[index].quantity += 1;
-        window.localStorage.setItem('cart', JSON.stringify(newCart))
-        setCount(newCart[index].quantity);
-        setCart(newCart);
-    }
-
-    const reduceProduct = () => {
-        if (newCart[index].quantity <= 0) return
-        newCart[index].quantity -= 1;
-        window.localStorage.setItem('cart', JSON.stringify(newCart))
-        setCount(newCart[index].quantity);
-        setCart(newCart)
-    }
-
-    const removeProduct = async () => {
-        await removeToCart(index);
-    }
-
-
+export default function AddToCart({ id, price, quantity, title, imagePath, removeToCart, reduceToCart, addToCart }) {
 
     return (
         <CartItem >
             <ProductImage>
-                <img src={image} alt="상품이미지" />
+                <img src={imagePath} alt="상품이미지" />
             </ProductImage>
             <ProductTitle >
                 <h4>{title}</h4>
             </ProductTitle>
             <ProductCount>
-                <h4>수량 {count}개</h4>
+                <h4>수량 {quantity}개</h4>
                 <ProductCountButton>
-                    <div onClick={addProduct}><UpOutlined /></div>
-                    <div onClick={reduceProduct}><DownOutlined /></div>
+                    <div onClick={addToCart}><UpOutlined /></div>
+                    <div onClick={reduceToCart}><DownOutlined /></div>
                 </ProductCountButton>
             </ProductCount>
             <ProductPrice>
-                <h4>{count * price} 원</h4>
+                <h4>{quantity * price} 원</h4>
             </ProductPrice>
             <ProductRemoveButton>
-                <button onClick={removeProduct}><DeleteOutlined /></button>
+                <button onClick={(e) => removeToCart(id)}><DeleteOutlined /></button>
             </ProductRemoveButton>
         </CartItem>
     )
@@ -64,7 +35,7 @@ export default function AddToCart({ image, title, price, quantity, removeToCart,
 AddToCart.propTypes = {
     title: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
+    imagePath: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
 }
 
@@ -121,7 +92,6 @@ const ProductCountButton = styled.div`
         }
     }    
 `
-
 const ProductPrice = styled.div`
      width: 20%;
 `

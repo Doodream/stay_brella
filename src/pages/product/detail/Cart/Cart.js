@@ -4,70 +4,85 @@ import Link from 'next/link';
 import 'antd/dist/antd.css';
 import styled from 'styled-components';
 import { Button, Divider, message } from 'antd';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { ConsoleSqlOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useRouter, withRouter } from 'next/router';
 import AddToCart from '../Cart/AddToCart';
 
 
 export default function Cart({ data }) {
-    const [totalPrice, setTotalPrice] = useState();
+    const [totalPrice, setTotalPrice] = useState(0);
     const [product, setProduct] = useState(data);
     const [cart, setCart] = useState(typeof window !== "undefined" ? JSON.parse(window.localStorage.getItem('cart')) : null);
-    const [isAuthenticated, setIsAuthenticated] = useState();
-    const removeToCart = (index) => {
-        if (cart.length === 1) {
-            setCart([]);
+
+    const removeToCart = (id) => {
+        var index = cart.findIndex(item => item.id === id);
+        setProduct(data);
+        if (cart.length <= 1) {
+            setCart(null);
             window.localStorage.removeItem('cart');
             return
         }
-        var newCart = JSON.parse(JSON.stringify(cart));
+        var newCart = cart;
         newCart.splice(index, 1)
         setCart(newCart);
-        window.localStorage.setItem('cart', JSON.stringify(newCart));
-        console.log(cart);
     }
 
     const addToCart = () => {
-        if (product.quantity !== 0) { setProduct({ ...product, quantity: 0 }) }
-        const newProduct = JSON.parse(JSON.stringify(product));
-        var newCart = JSON.parse(window.localStorage.getItem('cart'));
+        var newCart = cart;
+        var newProduct = product;
+        newProduct.quantity += 1;
+        // useState에서 setter 함수는 비동기 처리가 되며 렌더링을 유발 시킬때 해당값을 반영할 수 있다. 
+        // 함수 진행동안에는 리 랜더링이 안되기 때문에 newProduct, newCart 생성
+        setProduct(newProduct);
 
         // 카트가 비었는지 비어있지 않은지 
-        if (newCart) {
+        if (cart !== null || cart.length !== 0) {
             //카트가 비어있지 않다면 product가 있는지 없는지
-            if (newCart.some(item => item.title === newProduct.title)) {
-                var index = newCart.findIndex(item => item.title === newProduct.title)
-                newCart[index].quantity += 1;
-                window.localStorage.setItem('cart', JSON.stringify(newCart))
+            const itemIndex = cart.findIndex(item => item.id === product.id);
+            if (itemIndex === -1) {
+                setCart(cart.concat(product));
+                message.success("Add to Cart Success! 🧺")
             } else {
-                setProduct({ ...product, quantity: product.quantity + 1 })
-                newCart = newCart.concat(product);
-                window.localStorage.setItem('cart', JSON.stringify(newCart))
+                newCart[itemIndex] = newProduct;
+                setCart(newCart);
             }
         } else {
-            newProduct.quantity += 1;
-            window.localStorage.setItem('cart', JSON.stringify([newProduct]));
+            setCart([newProduct]);
+            message.success("Add to Cart Success! 🧺")
         }
-        setCart(JSON.parse(window.localStorage.getItem('cart')));
-        message.success("Add to Cart Success! 🧺")
-
     }
+
+    const reduceToCart = () => {
+        var newCart = cart;
+        var newProduct = product
+        newProduct.quantity -= 1;
+        // 카트가 비었는지 비어있지 않은지 
+        if (cart !== null || cart.length !== 0) {
+            //카트가 비어있지 않다면 product가 있는지 없는지
+            const itemIndex = cart.findIndex(item => item.id === product.id);
+            if (itemIndex !== -1 && product.quantity > 0) {
+                setProduct(newProduct);
+                newCart[itemIndex] = newProduct;
+                setCart(newCart);
+            }
+        }
+    }
+
     const getTotalPrice = () => {
         var count = 0;
-        cart !== null && cart.map(product => {
-            count += product.quantity * product.price
-        })
+        if (cart !== null) {
+            cart.map(product => {
+                count += product.quantity * product.price
+            })
+        }
         setTotalPrice(count);
     }
 
     useEffect(() => {
+        if (cart === null) return;
         getTotalPrice();
+        window.localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart])
-
-    useEffect(() => {
-        setIsAuthenticated(JSON.parse(window.localStorage.getItem('user')).token)
-        console.log(data, "data in Cart");
-    }, [])
 
     return (
         <Container>
@@ -76,38 +91,35 @@ export default function Cart({ data }) {
             <Section>
                 <CartBox>
                     {
-                        cart === null ?
+                        (cart === null || cart.length !== 0) ?
                             <EmptyCart>
                                 <ShoppingCartOutlined />
                                 <span > Cart is empty.</span>
                             </EmptyCart>
                             :
-                            cart.length !== 0 ?
-                                cart.map((product, index) => {
-                                    return <AddToCart
-                                        setCart={setCart}
-                                        key={index}
-                                        image={product.imagePath}
-                                        title={product.title}
-                                        price={product.price}
-                                        quantity={product.quantity}
-                                        removeToCart={removeToCart}
-                                    />
-                                }) :
-                                <EmptyCart >
-                                    <ShoppingCartOutlined />
-                                    <span > Cart is empty.</span>
-                                </EmptyCart>
+                            cart.map((product, index) => {
+                                return <AddToCart
+                                    addToCart={addToCart}
+                                    reduceToCart={reduceToCart}
+                                    removeToCart={removeToCart}
+                                    id={product.id}
+                                    price={product.price}
+                                    quantity={product.quantity}
+                                    title={product.title}
+                                    imagePath={product.imagePath}
+                                    key={index}
+                                />
+                            })
                     }
                 </CartBox>
                 <Divider style={{ margin: '0px' }} />
                 <PaymentBox>
                     <TotalPriceBox>
-                        <p>{cart === null ? 0 : totalPrice}원</p>
+                        <p>{totalPrice}원</p>
                     </TotalPriceBox>
-                    <CartButton onClick={addToCart}>Add to Cart</CartButton>
+                    <CartButton onClick={(e) => addToCart()}>Add to Cart</CartButton>
                     <CartButton style={{ margin: '20px 0' }}
-                        onClick={() => {
+                        onClick={(e) => {
                             isAuthenticated ? message.loading("Waiting for payment window 💸", 2) : message.warning("Please Log in 🙏")
                         }}>
                         Payment
