@@ -1,6 +1,6 @@
-import React from 'react';
-import AuthProvider from '../contexts/Auth/AuthProvider';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import React from "react";
+import AuthProvider from "../contexts/Auth/AuthProvider";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -8,16 +8,15 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
-`
+`;
 const theme = {
   colors: {
-    primary: '#0070f3',
+    primary: "#0070f3",
   },
-}
+};
 
 export default function App({ Component, pageProps }) {
-
-  var localStorage = null;
+  let localStorage = null;
   React.useEffect(() => {
     localStorage = window.localStorage;
     console.log(localStorage);
@@ -32,5 +31,5 @@ export default function App({ Component, pageProps }) {
         </AuthProvider>
       </ThemeProvider>
     </React.Fragment>
-  )
+  );
 }

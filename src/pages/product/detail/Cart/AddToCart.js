@@ -13,7 +13,7 @@ export default function AddToCart({ index, image, title, price, quantity, remove
     }, [quantity])
 
     const addProduct = () => {
-        var newCart = JSON.parse(JSON.stringify(cart));
+        const newCart = JSON.parse(JSON.stringify(cart));
         newCart[index].quantity += 1;
         setCount(newCart[index].quantity);
         setCart(newCart);
@@ -21,7 +21,7 @@ export default function AddToCart({ index, image, title, price, quantity, remove
 
     const reduceProduct = () => {
         if (cart[index].quantity <= 0) return
-        var newCart = JSON.parse(JSON.stringify(cart));
+        const newCart = JSON.parse(JSON.stringify(cart));
         newCart[index].quantity -= 1;
         setCount(newCart[index].quantity);
         setCart(newCart);
